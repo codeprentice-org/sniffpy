@@ -1,9 +1,12 @@
 class MIMEType:
 
-	def __init__(self, _type: str, _subtype: str, _parameters: dict = dict()) -> None:
+	def __init__(self, _type: str, _subtype: str, _parameters: dict = None) -> None:
 		self.type = _type
 		self.subtype = _subtype
-		self.parameters = _parameters
+		if _parameters is None:
+			self.parameters = dict()
+		else:
+			self.parameters = _parameters
 
 	def essence(self) -> str:
 		return self.type + "/" + self.subtype
