@@ -19,7 +19,7 @@ class MIMEType(object):
 		return False
 
 	def is_unknown(self) -> bool:
-		return self.essence() == "unknown/unknown" or elf.essence == "application/unknown" or self.essence() == "*/*" 
+		return self.essence() == "unknown/unknown" or self.essence() == "application/unknown" or self.essence() == "*/*" 
 
 	def is_image(self) -> bool:
 		return self.type == "image"
