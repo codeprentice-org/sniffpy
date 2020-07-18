@@ -1,4 +1,4 @@
-class MIMEType(object):
+class MIMEType:
 
 	def __init__(self, _type: str, _subtype: str, _parameters: dict = dict()) -> None:
 		self.type = _type
