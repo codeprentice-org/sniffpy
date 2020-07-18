@@ -1,4 +1,4 @@
-class MIMEType(object): 
+class MIMEType(object):
 
 	def __init__(self, _type: str, _subtype: str, _parameters: dict = dict()) -> None:
 		self.type = _type
@@ -19,7 +19,7 @@ class MIMEType(object):
 		return False
 
 	def is_unknown(self) -> bool:
-		return self.essence() == "unknown/unknown" or self.essence() == "application/unknown" or self.essence() == "*/*" 
+		return self.essence() == "unknown/unknown" or self.essence() == "application/unknown" or self.essence() == "*/*"
 
 	def is_image(self) -> bool:
 		return self.type == "image"
