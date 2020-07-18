@@ -51,7 +51,7 @@ def parse_mime_type(mime_type_string: str) -> MIMEType:
 def sniff(resource: bytes, mime_type_string: str = "unknown/unknown", no_sniff: bool = False, check_for_apache_bug: bool = False) -> str:
 	mime_type = parse_mime_type(mime_type_string)
 	if mime_type.is_unknown():
-		return sniff_unknown(resources, sniff_scriptable = not no_sniff)
+		return sniff_unknown(resources, sniff_scriptable=not no_sniff)
 	if no_sniff:
 		return mime_type
 	if check_for_apache_bug:
