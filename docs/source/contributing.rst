@@ -14,7 +14,7 @@ and rules about the project.
   
 
 
-.. warning:: Sniffpy uses Git and Github extensively. Troughout, we will assume
+.. warning:: Sniffpy uses Git and Github extensively. Throughout, we will assume
 	     that you are familiar with these tools. However, if you are not
 	     not or there are concepts you need a
 	     refresher for, `this guide <https://git-scm.com/book/en/v2>`_ is an
@@ -50,7 +50,7 @@ Creating a virtual environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To work on the code you will need to use a virtual environment.
-If you are a Mac(OS X) or Linux user you can do this easily by going inside of
+If you are a Mac (OS X) or Linux user you can do this easily by going inside of
 the project folder from your terminal and typing: ::
 
   make virtualenv
@@ -63,7 +63,7 @@ command line or powershell run: ::
   
   choco install make
 
-If evertying is working properly you should be able to use the make commands
+If everything is working properly you should be able to use the make commands
 from now on. After installing GNU make simply follow the instructions for Mac
 and Linux. 
 

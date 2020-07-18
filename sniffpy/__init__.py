@@ -1,9 +1,12 @@
-class MIMEType(object): 
+class MIMEType:
 
-	def __init__(self, _type: str, _subtype: str, _parameters = dict(): dict) -> None:
+	def __init__(self, _type: str, _subtype: str, _parameters: dict = None) -> None:
 		self.type = _type
 		self.subtype = _subtype
-		self.parameters = _parameters
+		if _parameters is None:
+			self.parameters = dict()
+		else:
+			self.parameters = _parameters
 
 	def essence(self) -> str:
 		return self.type + "/" + self.subtype
@@ -19,7 +22,7 @@ class MIMEType(object):
 		return False
 
 	def is_unknown(self) -> bool:
-		return self.essence() == "unknown/unknown" or elf.essence == "application/unknown" or self.essence() == "*/*" 
+		return self.essence() == "unknown/unknown" or self.essence() == "application/unknown" or self.essence() == "*/*"
 
 	def is_image(self) -> bool:
 		return self.type == "image"
@@ -48,15 +51,15 @@ def parse_mime_type(mime_type_string: str) -> MIMEType:
 def sniff(resource: bytes, mime_type_string: str = "unknown/unknown", no_sniff: bool = False, check_for_apache_bug: bool = False) -> str:
 	mime_type = parse_mime_type(mime_type_string)
 	if mime_type.is_unknown():
-		return sniff_unknown(resources, sniff_scriptable = not no_sniff)
+		return sniff_unknown(resource, sniff_scriptable=not no_sniff)
 	if no_sniff:
 		return mime_type
 	if check_for_apache_bug:
-		return sniff_mislabeled_binary(resources)
+		return sniff_mislabeled_binary(resource)
 	if mime_type.is_xml():
 		return mime_type
 	if mime_type.essence() == "text/html":
-		sniff_mislabeled_feed(resources)
+		sniff_mislabeled_feed(resource)
 	if mime_type.is_image(): #TODO: implement checking suppported image by user agent
 		match_type = match_image_type_pattern(resource)
 		if not match_type is None:

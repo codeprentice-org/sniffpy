@@ -1,2 +1,4 @@
+*.swp
+*.swo
 venv
 docs/build/
