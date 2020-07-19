@@ -1,12 +1,14 @@
+import re
+
 class MIMEType:
 
-	def __init__(self, _type: str, _subtype: str, _parameters: dict = None) -> None:
+	def __init__(self, _type: str, _subtype: str, parameters: dict = None) -> None:
 		self.type = _type
 		self.subtype = _subtype
-		if _parameters is None:
+		if parameters is None:
 			self.parameters = dict()
 		else:
-			self.parameters = _parameters
+			self.parameters = parameters
 
 	def essence(self) -> str:
 		return self.type + "/" + self.subtype
@@ -45,8 +47,75 @@ def match_image_type_pattern(resource: bytes) -> MIMEType:
 def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
 	raise NotImplementedError
 
-def parse_mime_type(mime_type_string: str) -> MIMEType:
+def check_condition(code_point: str, condition: List[str]) -> bool:
+	for char in condition:
+		if code_point == char:
+			return True
+	return False
+
+def collect_code_points(str_input: str, condition: List[str], pos: int) -> (str, int): #Implements: https://infra.spec.whatwg.org/#collect-a-sequence-of-code-points
+	result = []
+	while not check_condition(str_input[pos], condition):
+		result.append(str_input[pos])
+		pos += 1
+	return ''.join(result), pos
+
+def collect_http_quoted_string(str_input: str, pos: int, exact_value: bool = False) -> (str, int):
 	raise NotImplementedError
+
+def check_http_token_code_points(str_input: str) -> bool:
+	reg = re.compile(r'^[a-zA-Z0-9\!#\$%&\'\*\+-\.\^_`\|~]+$')
+	return reg.search(str_input)
+
+def check_http_quoted_string_token_code_points(str_input: str) -> bool:
+	raise NotImplementedError
+
+def parse_mime_type(str_input: str) -> MIMEType:
+	str_input = str_input.strip() #might have to specify HTTP whitespace characters
+	pos = 0
+	_type, pos = collect_code_points(str_input, ['/'], pos)
+
+	if _type == "" or not check_http_token_code_points(_type):
+		return None
+	if len(str_input) <= pos:
+		return None
+
+	pos += 1
+	_subtype, pos = collect_code_points(str_input, [';'], pos)
+	_subtype = _subtype.rstrip()
+
+	if _subtype == "" or not check_http_token_code_points(_subtype):
+		return None
+
+	_parameters = dict()
+
+	while pos < len(str_input):
+		pos += 1
+		_, pos = collect_code_points(str_input, ['\u000A', '\u000D', '\u0009', '\u0020'], pos)
+		_parameter_name, pos = collect_code_points(str_input, [';', '='], pos)
+		_parameter_name = _parameter_name.lower()
+	
+		if len(str_input) <= pos:
+			break
+		if  str_input[pos] == ';':
+			continue
+
+		pos += 1
+		if str_input[pos] == '"':
+			_parameter_value, pos = collect_http_quoted_string(str_input, pos, exact_value=True)
+			_, pos = collect_code_points(str_input, [';'], pos)
+		else:
+			_parameter_value, pos = collect_code_points(str_input, [';'], pos)
+			_parameter_value = _parameter_value.rstrip()
+			if _parameter == '':
+				continue
+
+		if (_parameter_name == '' and check_http_token_code_points(_parameter_name)
+				and check_http_quoted_string_token_code_points(_parameter_value) and _parameter_name not in _parameters):
+			_parameters[_parameter_name] = _parameter_value
+
+	return MIMEType(_type.lower(), _subtype.lower(), parameters=_parameters)
+
 
 def sniff(resource: bytes, mime_type_string: str = "unknown/unknown", no_sniff: bool = False, check_for_apache_bug: bool = False) -> str:
 	mime_type = parse_mime_type(mime_type_string)
