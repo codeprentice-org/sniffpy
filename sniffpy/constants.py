@@ -1,10 +1,11 @@
 # This document contains all of the tables specified in https://mimesniff.spec.whatwg.org/
 # Each table is implemented as an Array and a comment before each
 # table indicates title of the table and meaning of each column.
+from mimetype import MIMEtype
 
 # Bytes that the specification defines as whitespace
 WHITESPACE = b'\x09\x0a\x0c\x0d\x20'
-
+UNDEFINED = MIMEType('undefined', 'undefined')
 
 # Apache Bug Flag Table
 # Bytes as Bytes | Bytes as String
