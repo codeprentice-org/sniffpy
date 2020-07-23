@@ -65,7 +65,15 @@ command line or powershell run: ::
 
 If everything is working properly you should be able to use the make commands
 from now on. After installing GNU make simply follow the instructions for Mac
-and Linux. 
+and Linux.
+
+Once you have installed your virtual environmet you will need to
+install the package sniffpy so that tests can be run. You simply run
+::
+
+   make all
+
+ and this will do that for you. You are all set-up to start contributing!
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Using your virtual Environment
@@ -90,7 +98,6 @@ documents or code.
 .. note:: If you want to learn more about virtual environments you can read the
 	  `official documentation
 	  <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
-
 
 -----------------------
 Contributing with code
