@@ -37,7 +37,7 @@ AUDIO_VIDEO_PATTERNS = [
 
 # Patterns for Images
 # Bytes as Bytes | Pattern Mask |  Leading BYTES TO Be Igonred | MIMETYPE
- IMAGE_PATTERNS = [
+IMAGE_PATTERNS = [
      [b'\x00\x00\x01\x00', b'\xff\xff\xff\xff', b'', 'image/x-icon'],
      [b'\x00\x00\x02\x00', b'\xff\xff\xff\xff', b'', 'image/x-icon'],
      [b'BM', b'\xff\xff', b'', 'image/gif'],
