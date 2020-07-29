@@ -1,3 +1,5 @@
+from typing import List
+
 def check_condition(code_point: str, condition: List[str]) -> bool:
     for char in condition:
         if code_point == char:

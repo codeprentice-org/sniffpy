@@ -2,3 +2,4 @@
 *.swo
 venv
 docs/build/
+sniffpy.egg-info
