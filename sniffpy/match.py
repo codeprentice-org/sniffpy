@@ -1,7 +1,7 @@
 """ This module implements matching algorithms as described in
 https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern"""
 
-from mimetype import MIMEType
+from sniffpy.mimetype import MIMEType
 
 def match_image_type_pattern(resource: bytes) -> MIMEType:
     raise NotImplementedError
