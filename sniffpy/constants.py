@@ -38,23 +38,23 @@ AUDIO_VIDEO_PATTERNS = [
 
 # Patterns for Images
 # Bytes as Bytes | Pattern Mask |  Leading BYTES TO Be Igonred | MIMETYPE
- IMAGE_PATTERNS = [
-     [b'\x00\x00\x01\x00', b'\xff\xff\xff\xff', b'', 'image/x-icon'],
-     [b'\x00\x00\x02\x00', b'\xff\xff\xff\xff', b'', 'image/x-icon'],
-     [b'BM', b'\xff\xff', b'', 'image/gif'],
-     [b'GIF87a', b'\xff\xff\xff\xff\xff\xff', b'', 'image/gif'],
-     [b'GIF89a', b'\xff\xff\xff\xff\xff\xff', b'', 'image/gif'],
-     [b'RIFF\x00\x00\x00\x00WEBPVP', b'\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff', b'', 'image/webp'],
-     [b'\x89PNG\x0d\x0a\x1a\x0a', b'\xff\xff\xff\xff\xff\xff\xff\xff', b'', 'image/png'],
-     [b'\xff\xd8\xff', '\xff\xff\xff', b'', 'image/jpeg']
- ]
-     
+IMAGE_PATTERNS = [
+    [b'\x00\x00\x01\x00', b'\xff\xff\xff\xff', b'', 'image/x-icon'],
+    [b'\x00\x00\x02\x00', b'\xff\xff\xff\xff', b'', 'image/x-icon'],
+    [b'BM', b'\xff\xff', b'', 'image/gif'],
+    [b'GIF87a', b'\xff\xff\xff\xff\xff\xff', b'', 'image/gif'],
+    [b'GIF89a', b'\xff\xff\xff\xff\xff\xff', b'', 'image/gif'],
+    [b'RIFF\x00\x00\x00\x00WEBPVP', b'\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff', b'', 'image/webp'],
+    [b'\x89PNG\x0d\x0a\x1a\x0a', b'\xff\xff\xff\xff\xff\xff\xff\xff', b'', 'image/png'],
+    [b'\xff\xd8\xff', '\xff\xff\xff', b'', 'image/jpeg']
+]
+
 # Patterns for Fonts
 # Bytes as Bytes | Pattern Mask |  Leading BYTES TO Be Igonred | MIMETYPE
 FONT_PATTERNS = [
-    [b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' + 
+    [b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' +
      b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00LP',
-     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' + 
+     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' +
      b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff',
      b'', 'application/vnd.ms-fontobject'],
     [b'\x00\x01\x00\x00', b'\xff\xff\xff\xff', b'', 'font/ttf'],
@@ -79,18 +79,18 @@ UNKNOWN_PATTERNS = [
     [b'<IFRAME>', b'\xff\xdf\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<H1 ', b'\xff\xdf\xff\xff', WHITESPACE, 'text/html'],
     [b'<H1>', b'\xff\xdf\xff\xff', WHITESPACE, 'text/html'],
-    [b'<DIV ', b'\xff\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],    
-    [b'<DIV>', b'\xff\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],    
+    [b'<DIV ', b'\xff\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
+    [b'<DIV>', b'\xff\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<FONT ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<FONT>', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
-    [b'<TABLE ', b'\xff\xdf\xdf\xdf\xdf\xdf\xff' WHITESPACE, 'text/html'],
-    [b'<TABLE>', b'\xff\xdf\xdf\xdf\xdf\xdf\xff' WHITESPACE, 'text/html'],
+    [b'<TABLE ', b'\xff\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
+    [b'<TABLE>', b'\xff\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<A ', b'\xff\xdf\xff', WHITESPACE, 'text/html'],
     [b'<A>', b'\xff\xdf\xff', WHITESPACE, 'text/html'],
     [b'<STYLE ', b'\xff\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<STYLE>', b'\xff\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
-    [b'<TITLE ', b'\xff\xdf\xdf\xdf\xdf\xff' WHITESPACE, 'text/html'],
-    [b'<TITLE>', b'\xff\xdf\xdf\xdf\xdf\xff' WHITESPACE, 'text/html'],
+    [b'<TITLE ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
+    [b'<TITLE>', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<B ', b'\xff\df\xff', WHITESPACE, 'text/html'],
     [b'<B>', b'\xff\df\xff', WHITESPACE, 'text/html'],
     [b'<BODY ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
@@ -112,13 +112,13 @@ ADDITIONAL_PATTERNS = [
     [b'\xff\xff\x00\x00', b'\xff\xff\x00\x00', b'', 'text/plain'],
     [b'\xef\xbb\xbf\x00', b'\xff\xff\xff\x00', b'', 'text/plain']
 ]
-     
+
 # mp25_rates
 # index | mp2.5-rates
 MP25_RATES = [
     [0, 0],
     [1, 8000],
-    [2, 16000],   
+    [2, 16000],
     [3, 24000],
     [4, 32000],
     [5, 40000],
@@ -161,5 +161,3 @@ SAMLE_RATES = [
     [1, 48000],
     [2, 32000]
 ]
-
- 

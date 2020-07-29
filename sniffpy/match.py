@@ -1,6 +1,17 @@
+""" This module implements matching algorithms as described in
+https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern"""
+
+from mimetype import MIMEType
+
+def match_image_type_pattern(resource: bytes) -> MIMEType:
+    raise NotImplementedError
+
+def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
+    raise NotImplementedError
+
 def match_pattern(resource: bytes, pattern: bytes, mask: bytes, ignored: bytes):
     """
-    Implementation of algorithm in:
+    Implementation of algorithm in:x
     https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern
     True if pattern matches the resource. False otherwise.
     """
@@ -25,5 +36,4 @@ def match_pattern(resource: bytes, pattern: bytes, mask: bytes, ignored: bytes):
         masked_byte = resource_byte & mask_byte
         if masked_byte != pattern_byte:
             return False
-
     return True
