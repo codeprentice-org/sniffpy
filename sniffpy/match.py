@@ -1,10 +1,8 @@
 """ This module implements matching algorithms as described in
 https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern"""
 
-from sniffpy.mimetype import MIMEType
-
-def match_image_type_pattern(resource: bytes) -> MIMEType:
-    raise NotImplementedError
+from sniffpy.mimetype import MIMEType, parse_mime_type
+import sniffpy.constants as const
 
 def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
     raise NotImplementedError
@@ -37,3 +35,30 @@ def match_pattern(resource: bytes, pattern: bytes, mask: bytes, ignored: bytes):
         if masked_byte != pattern_byte:
             return False
     return True
+
+
+def match_image_type_pattern(resource: bytes) -> bool :
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
+
+    Returns: Image MIME Type if some image pattern matches the resource
+    or UNDEFINED otherwise. 
+
+    """
+    for row in const.IMAGE_PATTERNS:
+        pattern = row[0]
+        mask =row[1] 
+        mime_type = parse_mime_type(row[3])
+        string_to_ignore =row[2]
+        ignored = [] if "None" in string_to_ignore else WHITESPACE
+        pattern_found = match_pattern( resource = resource, 
+                                       pattern = pattern,
+                                       mask = mask,
+                                       ignored = ignored
+        )
+
+        if pattern_found:
+            return MIMEType
+
+        return const.UNDEFINED

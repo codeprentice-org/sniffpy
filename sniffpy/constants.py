@@ -1,7 +1,7 @@
 # This document contains all of the tables specified in https://mimesniff.spec.whatwg.org/
 # Each table is implemented as an Array and a comment before each
 # table indicates title of the table and meaning of each column.
-from mimetype import MIMEtype
+from sniffpy.mimetype import MIMEType
 
 # Bytes that the specification defines as whitespace
 WHITESPACE = b'\x09\x0a\x0c\x0d\x20'
@@ -20,7 +20,7 @@ APACHE_BUG_FLAG_PATTERNS = [
 # Bytes | Pattern Mask | Leading Bytes to Be Ignored | MIMETYPE
 ARCHIVE_PATTERNS = [
     [b'\x1f\x8b\x08', b'\xff\xff\xff', b'', 'application/x-gzip'],
-    [b'\x50\4b\x03\x04', b'\xff\xff\xff\xff', b'', 'application/zip']
+    [b'\x50\4b\x03\x04', b'\xff\xff\xff\xff', b'', 'application/zip'],
     [b'\x52\x61\x72\x20\x1A\x07\x00', b'\xFF\xFF\xFF\xFF\xFF\xFF\xFF', b'', 'application/x-rar-compressed']
 ]
 
@@ -71,8 +71,8 @@ UNKNOWN_PATTERNS = [
     [b'<!DOCTYPE HTML>', b'\xff\xff\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<HTML ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<HTML>', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
-    [b'<HEAD ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html']
-    [b'<HEAD>', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html']
+    [b'<HEAD ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
+    [b'<HEAD>', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<SCRIPT ', b'\xff\xdf\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<SCRIPT>', b'\xff\xdf\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<IFRAME ', b'\xff\xdf\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
@@ -91,8 +91,8 @@ UNKNOWN_PATTERNS = [
     [b'<STYLE>', b'\xff\xdf\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<TITLE ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<TITLE>', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
-    [b'<B ', b'\xff\df\xff', WHITESPACE, 'text/html'],
-    [b'<B>', b'\xff\df\xff', WHITESPACE, 'text/html'],
+    [b'<B ', b'\xff\xdf\xff', WHITESPACE, 'text/html'],
+    [b'<B>', b'\xff\xdf\xff', WHITESPACE, 'text/html'],
     [b'<BODY ', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<BODY>', b'\xff\xdf\xdf\xdf\xdf\xff', WHITESPACE, 'text/html'],
     [b'<BR ', b'\xff\xdf\xdf\xff', WHITESPACE, 'text/html'],
