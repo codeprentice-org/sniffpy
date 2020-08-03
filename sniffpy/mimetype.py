@@ -57,7 +57,6 @@ def parse_mime_type(str_input: str) -> MIMEType:
     while pos < len(str_input):
         pos += 1
         _, pos = ref.collect_code_points(str_input, ['\u000A', '\u000D', '\u0009', '\u0020'], pos, exclusion=False)
-        print(_, pos)
         _parameter_name, pos = ref.collect_code_points(str_input, [';', '='], pos)
         _parameter_name = _parameter_name.lower()
         if len(str_input) <= pos:
