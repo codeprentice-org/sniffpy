@@ -3,9 +3,8 @@ https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern"""
 
 from sniffpy.mimetype import MIMEType, parse_mime_type
 import sniffpy.constants as const
+from sniffpy.utils import match_mp3_header, compute_mp3_frame_size, parse_mp3_frame
 
-def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
-    raise NotImplementedError
 
 def match_pattern(resource: bytes, pattern: bytes, mask: bytes, ignored: bytes):
     """
@@ -13,9 +12,6 @@ def match_pattern(resource: bytes, pattern: bytes, mask: bytes, ignored: bytes):
     https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern
     True if pattern matches the resource. False otherwise.
     """
-    resource = bytearray(resource)
-    pattern = bytearray(pattern)
-    mask = bytearray(mask)
 
     if len(pattern) != len(mask):
         return False
@@ -48,10 +44,9 @@ def match_image_type_pattern(resource: bytes) -> bool :
     """
     for row in const.IMAGE_PATTERNS:
         pattern = row[0]
-        mask =row[1] 
+        mask =row[1]
         mime_type = parse_mime_type(row[3])
-        string_to_ignore =row[2]
-        ignored = [] if "None" in string_to_ignore else WHITESPACE
+        ignored = row[2]
         pattern_found = match_pattern( resource = resource, 
                                        pattern = pattern,
                                        mask = mask,
@@ -59,6 +54,59 @@ def match_image_type_pattern(resource: bytes) -> bool :
         )
 
         if pattern_found:
-            return MIMEType
+            return mime_type
 
-        return const.UNDEFINED
+    return const.UNDEFINED
+
+def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
+    raise NotImplementedError
+
+    
+def is_mp4_pattern(resource: bytes) -> bool:
+    """ Determines whether a byte sequence (resource) mathces the 
+    signature for MP4"""
+    if len(resource) < 4:
+        return False
+
+    box_size = int.from_bytes(resource[:4], 'big')
+    if len(resource) < box_size or box_size % 4 != 0:
+        return False
+    if resource[4:8] != b'ftyp':
+        return False
+    if resource[8:11] == b'mp4':
+        return True
+
+    bytes_read = 16
+    while bytes_read < box_size:
+        if resource[bytes_read: bytes_read + 3] == b'mp4':
+            return True
+        bytes_read += 4
+
+    return False
+
+def is_mp3_pattern(resource: bytes) -> bool:
+    """Determines whether a byte sequence matches the signature for mp3 wihtout ID3"""
+    offset = 0
+    parsed_values = {}
+    
+    if not match_mp3_header(resource, offset, parsed_values):
+        return False
+    offset = parse_mp3_frame(resource, offset, parsed_values)
+    skipped_bytes = compute_mp3_frame_size(parsed_values['version'],
+                                          parsed_values['bit_rate'],
+                                          parsed_values['freq'],
+                                          parsed_values['pad'])
+    if skipped_bytes < 4 or skipped_bytes > offset - len(resource):
+        return False
+
+    offset += offset
+    return  match_mp3_header(resource, offset, parsed_values)
+
+                                          
+    
+        
+    
+    
+
+
+    
