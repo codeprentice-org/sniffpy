@@ -33,6 +33,8 @@ class MIMEType:
     def is_video_audio(self) -> bool:
         return self.type == "audio" or self.type == "video" or self.essence() == "application/ogg"
 
+    def __eq__(self, obj):
+        return self.type == obj.type and self.subtype == obj.subtype and self.parameters == obj.parameters
 
 def parse_mime_type(str_input: str) -> MIMEType:
     str_input = str_input.strip() #might have to specify HTTP whitespace characters
@@ -52,13 +54,11 @@ def parse_mime_type(str_input: str) -> MIMEType:
         return None
 
     _parameters = dict()
-
     while pos < len(str_input):
         pos += 1
-        _, pos = ref.collect_code_points(str_input, ['\u000A', '\u000D', '\u0009', '\u0020'], pos)
+        _, pos = ref.collect_code_points(str_input, ['\u000A', '\u000D', '\u0009', '\u0020'], pos, exclusion=False)
         _parameter_name, pos = ref.collect_code_points(str_input, [';', '='], pos)
         _parameter_name = _parameter_name.lower()
-
         if len(str_input) <= pos:
             break
         if  str_input[pos] == ';':
@@ -74,7 +74,7 @@ def parse_mime_type(str_input: str) -> MIMEType:
             if _parameter_value == '':
                 continue
 
-        if (_parameter_name == '' and terminology.check_http_token_code_points(_parameter_name)
+        if (_parameter_name != '' and terminology.check_http_token_code_points(_parameter_name)
                 and terminology.check_http_quoted_string_token_code_points(_parameter_value)
                 and _parameter_name not in _parameters):
             _parameters[_parameter_name] = _parameter_value
