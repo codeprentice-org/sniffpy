@@ -75,7 +75,7 @@ def parse_mime_type(str_input: str) -> MIMEType:
             if _parameter_value == '':
                 continue
 
-        if (_parameter_name == '' and terminology.check_http_token_code_points(_parameter_name)
+        if (_parameter_name != '' and terminology.check_http_token_code_points(_parameter_name)
                 and terminology.check_http_quoted_string_token_code_points(_parameter_value)
                 and _parameter_name not in _parameters):
             _parameters[_parameter_name] = _parameter_value
