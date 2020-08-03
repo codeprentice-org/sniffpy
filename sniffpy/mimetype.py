@@ -33,6 +33,9 @@ class MIMEType:
     def is_video_audio(self) -> bool:
         return self.type == "audio" or self.type == "video" or self.essence() == "application/ogg"
 
+    def __eq__(self, obj):
+        return self.type == obj.type and self.subtype == obj.subtype and self.parameters == obj.parameters
+
 def parse_mime_type(str_input: str) -> MIMEType:
     str_input = str_input.strip() #might have to specify HTTP whitespace characters
     pos = 0
