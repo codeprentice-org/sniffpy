@@ -46,7 +46,7 @@ IMAGE_PATTERNS = [
     [b'GIF89a', b'\xff\xff\xff\xff\xff\xff', b'', 'image/gif'],
     [b'RIFF\x00\x00\x00\x00WEBPVP', b'\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff', b'', 'image/webp'],
     [b'\x89PNG\x0d\x0a\x1a\x0a', b'\xff\xff\xff\xff\xff\xff\xff\xff', b'', 'image/png'],
-    [b'\xff\xd8\xff', '\xff\xff\xff', b'', 'image/jpeg']
+    [b'\xff\xd8\xff', b'\xff\xff\xff', b'', 'image/jpeg']
 ]
 
 # Patterns for Fonts
@@ -58,10 +58,10 @@ FONT_PATTERNS = [
      b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff',
      b'', 'application/vnd.ms-fontobject'],
     [b'\x00\x01\x00\x00', b'\xff\xff\xff\xff', b'', 'font/ttf'],
-    [b'OTTO', '\xff\xff\xff\xff', b'', 'font/otf'],
-    [b'ttcf', '\xff\xff\xff\xff', b'', 'font/collection'],
-    [b'wOFF', '\xff\xff\xff\xff', b'', 'font/woff'],
-    [b'wOF2', '\xff\xff\xff\xff', b'', 'font/woff2']
+    [b'OTTO', b'\xff\xff\xff\xff', b'', 'font/otf'],
+    [b'ttcf', b'\xff\xff\xff\xff', b'', 'font/collection'],
+    [b'wOFF', b'\xff\xff\xff\xff', b'', 'font/woff'],
+    [b'wOF2', b'\xff\xff\xff\xff', b'', 'font/woff2']
 ]
 
 # Patterns corresponding to first table in section 7.1 of specification
