@@ -6,9 +6,9 @@ def check_condition(code_point: str, condition: List[str]) -> bool:
             return True
     return False
 
-def collect_code_points(str_input: str, condition: List[str], pos: int) -> (str, int): #Implements: https://infra.spec.whatwg.org/#collect-a-sequence-of-code-points
+def collect_code_points(str_input: str, condition: List[str], pos: int, exclusion: bool = True) -> (str, int): #Implements: https://infra.spec.whatwg.org/#collect-a-sequence-of-code-points
     result = []
-    while pos != len(str_input) and not check_condition(str_input[pos], condition):
+    while pos != len(str_input) and check_condition(str_input[pos], condition) ^ exclusion:
         result.append(str_input[pos])
         pos += 1
     return ''.join(result), pos
