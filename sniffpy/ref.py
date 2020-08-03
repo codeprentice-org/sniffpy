@@ -14,4 +14,32 @@ def collect_code_points(str_input: str, condition: List[str], pos: int, exclusio
     return ''.join(result), pos
 
 def collect_http_quoted_string(str_input: str, pos: int, exact_value: bool = False) -> (str, int):
-    raise NotImplementedError
+    position_start = pos
+    value = ""
+    assert str_input[pos] == '"'
+    pos += 1
+
+    while True:
+        append_value, pos = collect_code_points(str_input, ['"', '\\'], pos)
+        value += append_value
+        
+        if len(str_input) <= pos:
+            break
+
+        quote_or_backslash = str_input[pos]
+        pos += 1
+
+        if quote_or_backslash == '\\':
+            if len(str_input) <= pos:
+                val += "\\"
+                break
+            value += str_input[pos]
+            pos += 1
+        else:
+            assert quote_or_backslash == '"'
+            break
+
+    if exact_value:
+        return value, pos
+
+    return str_input[position_start:pos+1], pos
