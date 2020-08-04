@@ -41,7 +41,7 @@ def collect_http_quoted_string(
 
         if quote_or_backslash == '\\':
             if len(str_input) <= pos:
-                val += "\\"
+                value += "\\"
                 break
             value += str_input[pos]
             pos += 1
