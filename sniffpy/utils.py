@@ -28,12 +28,12 @@ def parse_vint(sequence: bytes, index: int) -> (int,int):
 
     return (parsed_number, number_size)
 
+def parse_mp3_frame(resource: bytes, offset: int, parsed_values: dict) -> int:
+    raise NotImplementedError
 
+def match_mp3_header(resource: bytes, offset: int, parsed_values: dict) -> bool:
+    raise NotImplementedError
 
-    
+def compute_mp3_frame_size(version: int, bit_rate: int, freq: int, pad: int) -> int:
+    raise NotImplementedError
 
-    
-        
-            
-        
-    
