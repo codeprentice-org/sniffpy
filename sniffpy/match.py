@@ -2,7 +2,7 @@
 https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern"""
 
 from sniffpy.mimetype import MIMEType, parse_mime_type
-import sniffpy.constants as const
+from . import constants as const
 from sniffpy.utils import match_mp3_header, compute_mp3_frame_size, parse_mp3_frame
 
 
