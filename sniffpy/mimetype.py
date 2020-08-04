@@ -1,9 +1,11 @@
 from . import ref
 from . import terminology
 
+
 class MIMEType:
 
-    def __init__(self, _type: str, _subtype: str, parameters: dict = None) -> None:
+    def __init__(self, _type: str, _subtype: str,
+                 parameters: dict = None) -> None:
         self.type = _type
         self.subtype = _subtype
         if parameters is None:
@@ -15,17 +17,19 @@ class MIMEType:
         return self.type + "/" + self.subtype
 
     def __str__(self) -> str:
-        return self.type + "/" + self.subtype #TODO: Implement parameter
+        return self.type + "/" + self.subtype  # TODO: Implement parameter
 
     def is_xml(self) -> bool:
         if len(self.subtype) > 3 and self.subtype[-4:] == "+xml":
             return True
-        if (self.type == "text" or self.type == "application") and self.subtype == "xml":
+        if (self.type == "text" or self.type ==
+                "application") and self.subtype == "xml":
             return True
         return False
 
     def is_unknown(self) -> bool:
-        return self.essence() == "unknown/unknown" or self.essence() == "application/unknown" or self.essence() == "*/*"
+        return self.essence() == "unknown/unknown" or self.essence(
+        ) == "application/unknown" or self.essence() == "*/*"
 
     def is_image(self) -> bool:
         return self.type == "image"
@@ -36,8 +40,9 @@ class MIMEType:
     def __eq__(self, obj):
         return self.type == obj.type and self.subtype == obj.subtype and self.parameters == obj.parameters
 
+
 def parse_mime_type(str_input: str) -> MIMEType:
-    str_input = str_input.strip() #might have to specify HTTP whitespace characters
+    str_input = str_input.strip()  # might have to specify HTTP whitespace characters
     pos = 0
     _type, pos = ref.collect_code_points(str_input, ['/'], pos)
 
@@ -50,26 +55,31 @@ def parse_mime_type(str_input: str) -> MIMEType:
     _subtype, pos = ref.collect_code_points(str_input, [';'], pos)
     _subtype = _subtype.rstrip()
 
-    if _subtype == "" or not terminology.check_http_token_code_points(_subtype):
+    if _subtype == "" or not terminology.check_http_token_code_points(
+            _subtype):
         return None
 
     _parameters = dict()
     while pos < len(str_input):
         pos += 1
-        _, pos = ref.collect_code_points(str_input, ['\u000A', '\u000D', '\u0009', '\u0020'], pos, exclusion=False)
-        _parameter_name, pos = ref.collect_code_points(str_input, [';', '='], pos)
+        _, pos = ref.collect_code_points(
+            str_input, ['\u000A', '\u000D', '\u0009', '\u0020'], pos, exclusion=False)
+        _parameter_name, pos = ref.collect_code_points(
+            str_input, [';', '='], pos)
         _parameter_name = _parameter_name.lower()
         if len(str_input) <= pos:
             break
-        if  str_input[pos] == ';':
+        if str_input[pos] == ';':
             continue
 
         pos += 1
         if str_input[pos] == '"':
-            _parameter_value, pos = ref.collect_http_quoted_string(str_input, pos, exact_value=True)
+            _parameter_value, pos = ref.collect_http_quoted_string(
+                str_input, pos, exact_value=True)
             _, pos = ref.collect_code_points(str_input, [';'], pos)
         else:
-            _parameter_value, pos = ref.collect_code_points(str_input, [';'], pos)
+            _parameter_value, pos = ref.collect_code_points(
+                str_input, [';'], pos)
             _parameter_value = _parameter_value.rstrip()
             if _parameter_value == '':
                 continue
