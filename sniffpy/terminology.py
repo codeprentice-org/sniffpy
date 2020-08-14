@@ -1,6 +1,16 @@
 import re
 
 
+def contains_binary_bytes(resource: bytes) -> bool:
+    contains_binary = False
+    for byte in resource:
+        if (b'\x00' <= byte and byte <= b'\x08') or byte == b'\x0b' or (
+                b'\x0e' <= byte and byte <= b'\x1a') or ('\x1c' <= byte and byte <= '\x1f'):
+            contains_binary = True
+
+    return contains_binary
+
+
 def check_http_quoted_string_token_code_points(str_input: str) -> bool:
 
     for char in str_input:

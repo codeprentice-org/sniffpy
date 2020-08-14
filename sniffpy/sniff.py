@@ -1,6 +1,7 @@
 from . import match
 from . import mimetype
 from .mimetype import MIMEType
+from . import terminology
 
 
 def sniff_unknown(resource: bytes, sniff_scriptable: bool = False):  # might need more arguments
@@ -8,7 +9,20 @@ def sniff_unknown(resource: bytes, sniff_scriptable: bool = False):  # might nee
 
 
 def sniff_mislabeled_binary(resource: bytes) -> MIMEType:
-    raise NotImplementedError
+    plaintext_mimetype = MIMEType("text", "plain")
+    length = len(resource)
+
+    if length >= 2 and (
+            resource[:2] == b'\xfe\xff' or resource[:2] == b'\xff\xfe'):
+        return plaintext_mimetype
+
+    if length >= 3 and resource[:3] == b'\xef\xbb\xbf':
+        return plaintext_mimetype
+
+    if not terminology.contains_binary_bytes(resource):
+        return plaintext_mimetype
+
+    return MIMEType("application", "octet-stream")
 
 
 def sniff_mislabeled_feed(resource: bytes) -> MIMEType:
