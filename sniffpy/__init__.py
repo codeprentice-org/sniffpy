@@ -1,1 +1,1 @@
-from .sniff import sniff
+from .sniff import *
