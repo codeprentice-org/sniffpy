@@ -2,11 +2,17 @@
 
 import sniffpy
 from sniffpy.mimetype import parse_mime_type
-from tests.utils import mimetype_is_equal 
+from tests.utils import mimetype_is_equal
 import pytest
 
+
 class TestSniffing:
-    mime_types = ['text/plain', 'text/plain', 'text/plain', 'text/plain', 'application/octet-stream']
+    mime_types = [
+        'text/plain',
+        'text/plain',
+        'text/plain',
+        'text/plain',
+        'application/octet-stream']
     content = [
         b'\xfe\xffthis is a test string',
         b'\xff\xfethis is a test string',
