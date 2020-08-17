@@ -1,6 +1,22 @@
 import re
 
 
+def contains_binary_bytes(resource: bytes) -> bool:
+    contains_binary = False
+    for byte in resource:
+        in_range1 = int.from_bytes(b'\x00', "little") <= byte \
+            and byte <= int.from_bytes(b'\x08', "little")
+        in_range2 = byte == int.from_bytes(b'\x0b', "little")
+        in_range3 = int.from_bytes(b'\x0e', "little") <= byte \
+            and byte <= int.from_bytes(b'\x1a', "little")
+        in_range4 = int.from_bytes(b'\x1c', "little") <= byte \
+            and byte <= int.from_bytes(b'\x1f', "little") 
+        if in_range1 or in_range2 or in_range3 or in_range4:
+            contains_binary = True
+
+    return contains_binary
+
+
 def check_http_quoted_string_token_code_points(str_input: str) -> bool:
 
     for char in str_input:
