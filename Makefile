@@ -52,7 +52,7 @@ uninstall:
 
 checkstyle:
 	@echo "Checking style"
-	@pylint -v  sniffpy
+	@$(VENV_BIN)/pylint -v  sniffpy
 
 test:
-	py.test
+	$(VENV_BIN)/py.test
