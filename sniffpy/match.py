@@ -1,10 +1,10 @@
 """ This module implements matching algorithms as described in
 https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern"""
 
+from typing import List
 from sniffpy.mimetype import MIMEType, parse_mime_type
 from sniffpy.utils import match_mp3_header, compute_mp3_frame_size, parse_mp3_frame
 from . import constants as const
-
 
 def match_pattern(
         resource: bytes,
@@ -36,17 +36,15 @@ def match_pattern(
             return False
     return True
 
-
-def match_image_type_pattern(resource: bytes) -> bool:
+def match_pattern_from_table(resource: bytes, table: List[List[bytes]]):
     """
-    Implementation of algorithm in:
-    https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
+    Utility function for looping through a table of patterns
+    to return matching pattern
 
-    Returns: Image MIME Type if some image pattern matches the resource
-    or UNDEFINED otherwise.
-
+    Returns: MIME Type of the row if some pattern matches
+    the corresponding resource or UNDEFINED otherwise.
     """
-    for row in const.IMAGE_PATTERNS:
+    for row in table:
         pattern = row[0]
         mask = row[1]
         mime_type = parse_mime_type(row[3])
@@ -62,6 +60,16 @@ def match_image_type_pattern(resource: bytes) -> bool:
 
     return const.UNDEFINED
 
+def match_image_type_pattern(resource: bytes) -> bool:
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
+
+    Returns: Image MIME Type if some image pattern matches the resource
+    or UNDEFINED otherwise.
+
+    """
+    return match_pattern_from_table(resource, const.IMAGE_PATTERNS)
 
 def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
     raise NotImplementedError
