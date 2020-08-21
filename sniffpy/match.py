@@ -4,6 +4,7 @@ https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern"""
 from sniffpy.mimetype import MIMEType, parse_mime_type
 import sniffpy.constants as const
 from sniffpy.utils import match_mp3_header, compute_mp3_frame_size, parse_mp3_frame
+import sniffpy.utils as utils
 
 
 def match_pattern(resource: bytes, pattern: bytes, mask: bytes, ignored: bytes):
@@ -86,6 +87,7 @@ def is_mp4_pattern(resource: bytes) -> bool:
 
 def is_mp3_pattern(resource: bytes) -> bool:
     """Determines whether a byte sequence matches the signature for mp3 wihtout ID3"""
+    # TO DO TEST THIS Function
     offset = 0
     parsed_values = {}
     
@@ -102,11 +104,30 @@ def is_mp3_pattern(resource: bytes) -> bool:
     offset += offset
     return  match_mp3_header(resource, offset, parsed_values)
 
-                                          
+
+def is_webm_pattern(resource: bytes) -> bool:
+    """Determines whether a byte sequence mateches the signature for WebM"""
+    if len(resource) < 4:
+        return False
+    if resource[:4] != b'\x1a\x45\xdf\xa3':
+        return False
+    print(resource[:40])
     
+    i = 4
+    while i < len(resource) and i < 38:
         
-    
-    
+        if resource[i:i+2] == b'\x42\x82':
+            i += 2
+            if i >= len(resource):
+                break
+            parsed_number, number_size = utils.parse_vint(resource, i)
+            i += number_size
+            if i > len(resource) - 4:
+                break
+            print(i)
+            match = utils.match_padded_sequence(b'webm', resource, i, end=-float('inf'))
+            if match:
+                return True
+        i += 1 
 
-
-    
+    return False    
