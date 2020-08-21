@@ -2,12 +2,12 @@
 import sniffpy.constants as const
 
 
-def parse_vint(sequence: bytes, index: int) -> (int,int):
+
+def parse_vint(sequence: bytes, index: int) -> (int, int):
     """ Implementation of https://mimesniff.spec.whatwg.org/#parse-a-vint"""
     mask = 128
     max_len = 8
     number_size = 1
-
     
     while number_size < max_len and number_size <len(sequence):
         if sequence[index] & mask != 0:
@@ -105,16 +105,11 @@ def match_padded_sequence(pattern: bytes, sequence: bytes, offset: int, end: int
             return False
 
     return False
-                        
-        
-    
-    
 
-    
-    
 
-    
-        
-            
-        
-    
+def compute_mp3_frame_size(
+        version: int,
+        bit_rate: int,
+        freq: int,
+        pad: int) -> int:
+    raise NotImplementedError

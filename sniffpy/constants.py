@@ -12,17 +12,24 @@ UNDEFINED = MIMEType('undefined', 'undefined')
 APACHE_BUG_FLAG_PATTERNS = [
     [b'text/plain', 'text/plain'],
     [b'text/plain; charset=ISO-8859-1', 'text/plain; charset=ISO-8859-1'],
-    [b'text/plain; charset=iso-8859-1','text/plain; charset=iso-8859-1'],
+    [b'text/plain; charset=iso-8859-1', 'text/plain; charset=iso-8859-1'],
     [b'text/plain; charset=UTF-8', b'text/plain; charset=UTF-8']
 ]
 
 # Archive Pattern Table
 # Bytes | Pattern Mask | Leading Bytes to Be Ignored | MIMETYPE
-ARCHIVE_PATTERNS = [
-    [b'\x1f\x8b\x08', b'\xff\xff\xff', b'', 'application/x-gzip'],
-    [b'\x50\4b\x03\x04', b'\xff\xff\xff\xff', b'', 'application/zip'],
-    [b'\x52\x61\x72\x20\x1A\x07\x00', b'\xFF\xFF\xFF\xFF\xFF\xFF\xFF', b'', 'application/x-rar-compressed']
-]
+ARCHIVE_PATTERNS = [[b'\x1f\x8b\x08',
+                     b'\xff\xff\xff',
+                     b'',
+                     'application/x-gzip'],
+                    [b'\x50\4b\x03\x04',
+                     b'\xff\xff\xff\xff',
+                     b'',
+                     'application/zip'],
+                    [b'\x52\x61\x72\x20\x1A\x07\x00',
+                     b'\xFF\xFF\xFF\xFF\xFF\xFF\xFF',
+                     b'',
+                     'application/x-rar-compressed']]
 
 # Patterns for Audio and video
 # Bytes as Bytes |  Pattern Mask |  Leading BYTES TO Be Igonred | MIMETYPE
@@ -107,30 +114,37 @@ UNKNOWN_PATTERNS = [
 # Patterns corresponding second table in section 7.2 of specification
 # TODO: Add logic to allow user to extend this table safely
 # Byte Pattern | PATTERN MASK | LEADING BYTES TO BE IGNORED | MIMETYPE
-ADDITIONAL_PATTERNS = [
-    [b'%!PS-Adobe-', b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff', b'', 'application/postcript'],
-    [b'\xff\xff\x00\x00', b'\xff\xff\x00\x00', b'', 'text/plain'],
-    [b'\xef\xbb\xbf\x00', b'\xff\xff\xff\x00', b'', 'text/plain']
-]
+ADDITIONAL_PATTERNS = [[b'%!PS-Adobe-',
+                        b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff',
+                        b'',
+                        'application/postcript'],
+                       [b'\xff\xff\x00\x00',
+                        b'\xff\xff\x00\x00',
+                        b'',
+                        'text/plain'],
+                       [b'\xef\xbb\xbf\x00',
+                        b'\xff\xff\xff\x00',
+                        b'',
+                        'text/plain']]
 
 # mp25_rates
 # index | mp2.5-rates
 MP25_RATES = {
-   0: 0,
-   1: 8000,
-   2: 16000,
-   3: 24000,
-   4: 32000,
-   5: 40000,
-   6: 48000,
-   7: 56000,
-   8: 64000,
-   9: 80000,
-   10: 96000,
-   11: 112000,
-   12: 128000,
-   13: 144000,
-   14: 160000,
+    0: 0,
+    1: 8000,
+    2: 16000,
+    3: 24000,
+    4: 32000,
+    5: 40000,
+    6: 48000,
+    7: 56000,
+    8: 64000,
+    9: 80000,
+    10: 96000,
+    11: 112000,
+    12: 128000,
+    13: 144000,
+    14: 160000,
 }
 
 # MP3 Rates table
