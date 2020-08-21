@@ -52,3 +52,8 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+#Sourcetrail files
+*.srctrlbm
+*.srctrldb
+*.srctrlprj
