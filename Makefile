@@ -14,7 +14,7 @@ VENV_BIN=$(VENV_ROOT)/bin
 VENV_PIP=$(VENV_BIN)/pip3
 VENV_PYTHON=$(VENV_BIN)/python
 
-
+first: virtualenv uninstall install
 
 virtualenv:
 	@echo "Making virtual environment..."
