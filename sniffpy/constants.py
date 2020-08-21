@@ -34,7 +34,7 @@ AUDIO_VIDEO_PATTERNS = [
     [b'MThd\x00\x00\x00\x00\x06', b'\xff\xff\xff\xff\xff\xff\xff\xff', b'', 'audio/midi'],
     [b'RIFF\x00\x00\x00\x00AVI ', b'\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff', b'', 'video/avi'],
     [b'RIFF\x00\x00\x00\x00WAVE', b'\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff', b'', 'audio/wave']
-]
+    ]
 
 # Patterns for Images
 # Bytes as Bytes | Pattern Mask |  Leading BYTES TO Be Igonred | MIMETYPE

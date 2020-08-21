@@ -1,6 +1,7 @@
 from . import ref
 from . import terminology
 
+
 class MIMEType:
 
     def __init__(self, _type: str, _subtype: str, parameters: dict = None) -> None:
