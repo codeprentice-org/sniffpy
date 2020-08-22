@@ -2,14 +2,13 @@
 import sniffpy.constants as const
 
 
-
 def parse_vint(sequence: bytes, index: int) -> (int, int):
     """ Implementation of https://mimesniff.spec.whatwg.org/#parse-a-vint"""
     mask = 128
     max_len = 8
     number_size = 1
-    
-    while number_size < max_len and number_size <len(sequence):
+
+    while number_size < max_len and number_size < len(sequence):
         if sequence[index] & mask != 0:
             break
         mask = mask >> 1
@@ -31,19 +30,24 @@ def parse_vint(sequence: bytes, index: int) -> (int, int):
     return (parsed_number, number_size)
 
 
-def match_mp3_header(resource: bytes, offset: int, parsed_values: dict) -> bool:
-    """ Implements the aglorithm in specification and modifies the  parsed_vaues dictionary to add relevant information of the file.
-Solution is not cleanbut is the most consistent with the specification"""
+def match_mp3_header(
+        resource: bytes,
+        offset: int,
+        parsed_values: dict) -> bool:
+    """ Implements the aglorithm in specification and modifies the
+    parsed_vaues dictionary to add relevant information of the file.
+    Solution is not cleanbut is the most consistent with the specification"""
 
-    #We use b'\x02'[0] to extract unsigned int from byte (2 in this case)
+    # We use b'\x02'[0] to extract unsigned int from byte (2 in this case)
     if len(resource) < 4:
         return False
-    if resource[offset] != b'\xff' and resource[offset + 1] & b'\xe0'[0] != b'\xe0'[0]:
+    if resource[offset] != b'\xff' and resource[offset +
+                                                1] & b'\xe0'[0] != b'\xe0'[0]:
         return False
 
-    layer = resource[offset + 1]  & b'\x06'[0]
+    layer = resource[offset + 1] & b'\x06'[0]
     parsed_values['layer'] = layer[0] >> 1
-    if parsed_values['layer'] == 0: 
+    if parsed_values['layer'] == 0:
         return False
 
     bit_rate = resource[offset + 2] & b'\x0c'[0]
@@ -56,43 +60,55 @@ Solution is not cleanbut is the most consistent with the specification"""
     if parsed_values['sample_rate'] == 3:
         return False
 
-    parsed_values['freq'] = const.SAMLE_RATES[sample_rate]
+    parsed_values['freq'] = const.SAMPLE_RATES[sample_rate]
     parsed_values['final_layer'] = 4 - resource[offset + 1]
-    if final_layer & b'\x06'[0] != 3:
+    if parsed_values['final_layer'] & b'\x06'[0] != 3:
         return False
 
     return True
 
-def compute_mp3_frame_size(version: int, bit_rate: int, freq: int, pad: int) -> int:
+
+def compute_mp3_frame_size(
+        version: int,
+        bit_rate: int,
+        freq: int,
+        pad: int) -> int:
+    """Helper function to computer frame size. Consult specification for more information"""
     scale = 72 if version == 1 else 144
     size = bit_rate * scale / freq
     size = size + 1 if pad != 0 else size
     return size
+
 
 def parse_mp3_frame(resource: bytes, offset: int, parsed_values: dict) -> int:
     """Parses and mp3 frame and adds criteria to the parsed_value dict
     Returns offset after operations.
     Solution is not clean but is consistent with specification
     """
-    s = offset
-    parsed_values['version'] = (resource[s+1] & b'\x18'[0]) >> 3
-    bit_rate_index = (resource[s+2] & b'\xf0'[0]) >> 4
-    if version & 1 != 0:
+
+    parsed_values['version'] = (resource[offset + 1] & b'\x18'[0]) >> 3
+    bit_rate_index = (resource[offset + 2] & b'\xf0'[0]) >> 4
+    if parsed_values['version'] & 1 != 0:
         bit_rate = const.MP25_RATES[bit_rate_index]
     else:
         bit_rate = const.MP3_RATES[bit_rate_index]
     parsed_values['bit_rate'] = bit_rate
 
-    sample_rate_index = (resource[s+2] & b'\x0c'[0]) >> 2
+    sample_rate_index = (resource[offset + 2] & b'\x0c'[0]) >> 2
     parsed_values['sample_rate'] = const.SAMPLE_RATES[sample_rate_index]
-    parsed_values['pad'] = (resource[s+2] & b'\x02') >> 1
+    parsed_values['pad'] = (resource[offset + 2] & b'\x02') >> 1
 
-    return s
+    return offset
 
 
-def match_padded_sequence(pattern: bytes, sequence: bytes, offset: int, end: int)-> bytes:
+def match_padded_sequence(
+        pattern: bytes,
+        sequence: bytes,
+        offset: int,
+        end: int) -> bytes:
+    """Helper function used to match Webm patterns. Consult specification for more information"""
 
-    if len(sequence) <= end :
+    if len(sequence) <= end:
         return False
 
     i = 0
@@ -101,15 +117,7 @@ def match_padded_sequence(pattern: bytes, sequence: bytes, offset: int, end: int
         print(sequence[offset + i: offset + i + len(pattern)])
         if sequence[offset + i: offset + i + len(pattern)] == pattern:
             return True
-        elif sequence[offset + i] != 0:
+        if sequence[offset + i] != 0:
             return False
 
     return False
-
-
-def compute_mp3_frame_size(
-        version: int,
-        bit_rate: int,
-        freq: int,
-        pad: int) -> int:
-    raise NotImplementedError

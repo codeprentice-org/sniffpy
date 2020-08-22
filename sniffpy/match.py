@@ -40,6 +40,7 @@ def match_pattern(
             return False
     return True
 
+
 def match_pattern_from_table(resource: bytes, table: List[List[bytes]]):
     """
     Utility function for looping through a table of patterns
@@ -64,6 +65,7 @@ def match_pattern_from_table(resource: bytes, table: List[List[bytes]]):
 
     return const.UNDEFINED
 
+
 def match_image_type_pattern(resource: bytes) -> bool:
     """
     Implementation of algorithm in:
@@ -75,7 +77,15 @@ def match_image_type_pattern(resource: bytes) -> bool:
     """
     return match_pattern_from_table(resource, const.IMAGE_PATTERNS)
 
+
 def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#matching-an-audio-or-video-type-pattern
+
+    Returns Video or audio MIME Type if some video or audio mimetype matches the
+    resource or UNDEFINED otherwise.
+    """
     raise NotImplementedError
 
 
@@ -120,7 +130,7 @@ def is_mp3_pattern(resource: bytes) -> bool:
 
     offset += offset
 
-    return  match_mp3_header(resource, offset, parsed_values)
+    return match_mp3_header(resource, offset, parsed_values)
 
 
 def is_webm_pattern(resource: bytes) -> bool:
@@ -130,23 +140,23 @@ def is_webm_pattern(resource: bytes) -> bool:
     if resource[:4] != b'\x1a\x45\xdf\xa3':
         return False
     print(resource[:40])
-    
+
     i = 4
     while i < len(resource) and i < 38:
-        
-        if resource[i:i+2] == b'\x42\x82':
+
+        if resource[i:i + 2] == b'\x42\x82':
             i += 2
             if i >= len(resource):
                 break
-            parsed_number, number_size = utils.parse_vint(resource, i)
+            _, number_size = utils.parse_vint(resource, i)
             i += number_size
             if i > len(resource) - 4:
                 break
             print(i)
-            match = utils.match_padded_sequence(b'webm', resource, i, end=-float('inf'))
+            match = utils.match_padded_sequence(
+                b'webm', resource, i, end=-float('inf'))
             if match:
                 return True
-        i += 1 
+        i += 1
 
-    return False    
-
+    return False

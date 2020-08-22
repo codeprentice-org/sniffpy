@@ -65,6 +65,7 @@ test_stylecheck:
 	@echo " "
 	@echo " " 
 
-test:
+test: FORCE
 	$(VENV_BIN)/py.test
 
+FORCE: ;
