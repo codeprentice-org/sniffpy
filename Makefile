@@ -48,9 +48,22 @@ uninstall:
 	$(VENV_PIP) uninstall sniffpy
 	@echo "Succesfully uninstalled sniffpy"
 
-stylecheck:
-	@echo "Checking style"
-	@$(VENV_BIN)/pylint -v  sniffpy
+stylecheck: base_stylecheck test_stylecheck
+	@echo "Done with stylecheck"
+
+base_stylecheck:
+	@echo "Checking codebase coding style"
+	@$(VENV_BIN)/pylint -v sniffpy
+	@echo " "
+	@echo " "
+	@echo " " 
+
+test_stylecheck:
+	@echo "Checking coding style of tests" 
+	@$(VENV_BIN)/pylint --rcfile .pylintrctest tests
+	@echo " "
+	@echo " "
+	@echo " " 
 
 test:
 	$(VENV_BIN)/py.test
