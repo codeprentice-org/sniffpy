@@ -58,7 +58,7 @@ test:
 
 github_install:
 	@echo "Installing sniffpy in the system"
-	@$(GITHUB_PIP) install -e .
+	@$(GITHUB_PIP) install .
 	@echo " "	
 	@echo "/////////////////////////////////////// "
 	@echo " "
