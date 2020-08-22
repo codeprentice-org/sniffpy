@@ -1,9 +1,16 @@
 """ This module should implement tests pertaining the match module in the package"""
+import os
+import re
 
 import sniffpy.match as match
 from sniffpy.mimetype import parse_mime_type
 from tests.utils import mimetype_is_equal 
 import pytest
+
+TEST_FILES_PATH = os.path.dirname(os.path.realpath(__file__))
+TEST_FILES_PATH = os.path.join(TEST_FILES_PATH, 'test_files')
+
+
 
 def test_match_pattern():
     """Tests whether match_pattern implementation works"""
@@ -43,6 +50,36 @@ class TestImageMatching:
         computed_type = match.match_image_type_pattern(resource)
         actual_type = parse_mime_type(mime)
         mimetype_is_equal(computed_type, actual_type)
+
+    def test_match_image_pattern_wfile(self):
+        images_folder_path = os.path.join(TEST_FILES_PATH, 'images')
+        images = os.listdir(images_folder_path)
+        for image_name in images:
+            image_name = os.path.join(images_folder_path, image_name)
+            name, extension = os.path.splitext(image_name)
+            expected_mime = parse_mime_type('image/' + extension[1:])
+            print('image/' + extension[1:])
+            with open(image_name, 'rb') as f:
+                resource = f.read()
+                computed_type = match.match_image_type_pattern(resource)
+                mimetype_is_equal(computed_type, expected_mime)
+
+                
+class TestAudioVideoMatching:
+
+    def test_is_mp4_pattern(self):
+        mp4_file_path = os.path.join(TEST_FILES_PATH, 'audio/sample_mp4.mp4')
+        with open(mp4_file_path, 'rb') as f:
+            resource = f.read()
+            assert match.is_mp4_pattern(resource)
+
+    def test_is_webm_pattern(self):
+        webm_file_path = os.path.join(TEST_FILES_PATH, 'webm/sample_webm.webm')
+        with open(webm_file_path, 'rb') as f:
+            resource = f.read()
+            assert match.is_webm_pattern(resource)
+
+        
         
 
 
