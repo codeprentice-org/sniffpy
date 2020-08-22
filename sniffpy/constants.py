@@ -1,6 +1,7 @@
 # This document contains all of the tables specified in https://mimesniff.spec.whatwg.org/
 # Each table is implemented as an Array and a comment before each
 # table indicates title of the table and meaning of each column.
+# pylint: disable=line-too-long
 from sniffpy.mimetype import MIMEType
 
 # Bytes that the specification defines as whitespace
@@ -175,7 +176,7 @@ MP3_RATES = {
 
 # Sample rates
 # index | samplerate
-SAMLE_RATES = {
+SAMPLE_RATES = {
     0: 44100,
     1: 48000,
     2: 32000

@@ -23,7 +23,7 @@ virtualenv:
 
 all:  uninstall install
 
-install:
+install: virtualenv
 	@echo "Installing sniffpy in the system"
 	@$(VENV_PIP) install -e .
 	@echo " "	
@@ -48,32 +48,24 @@ uninstall:
 	$(VENV_PIP) uninstall sniffpy
 	@echo "Succesfully uninstalled sniffpy"
 
-checkstyle:
-	@echo "Checking style"
-	@$(VENV_BIN)/pylint -v  sniffpy
+stylecheck: base_stylecheck test_stylecheck
+	@echo "Done with stylecheck"
 
-test:
+base_stylecheck:
+	@echo "Checking codebase coding style"
+	@$(VENV_BIN)/pylint -v sniffpy
+	@echo " "
+	@echo " "
+	@echo " " 
+
+test_stylecheck:
+	@echo "Checking coding style of tests" 
+	@$(VENV_BIN)/pylint --rcfile .pylintrctest tests
+	@echo " "
+	@echo " "
+	@echo " " 
+
+test: FORCE
 	$(VENV_BIN)/py.test
 
-
-github_install:
-	@echo "Installing sniffpy in the system"
-	@$(GITHUB_PIP) install -e .
-	@echo " "	
-	@echo "/////////////////////////////////////// "
-	@echo " "
-	@echo "   _____       _  __  __              "
-	@echo "  / ____|     (_)/ _|/ _|             "
-	@echo " | (___  _ __  _| |_| |_ _ __  _   _  "
-	@echo "  \___ \| '_ \| |  _|  _| '_ \| | | | "
-	@echo "  ____) | | | | | | | | | |_) | |_| | "
-	@echo " |_____/|_| |_|_|_| |_| | .__/ \__, | "
-	@echo "                        | |     __/ | "
-	@echo "                        |_|    |___/  "
-	@echo " "
-	@echo "/////////////////////////////////////// "
-	@echo " "
-	@echo " "		
-
-github_tests:
-	py.test
+FORCE: ;

@@ -3,6 +3,7 @@ from . import terminology
 
 
 class MIMEType:
+    """ TODO: Add class docstring"""
 
     def __init__(self, _type: str, _subtype: str,
                  parameters: dict = None) -> None:
@@ -38,8 +39,9 @@ class MIMEType:
         return self.type == "audio" or self.type == "video" or self.essence() == "application/ogg"
 
     def __eq__(self, obj):
-        return self.type == obj.type and self.subtype == obj.subtype and self.parameters == obj.parameters
-
+        value = self.type == obj.type and self.subtype == obj.subtype
+        value = value and self.parameters == obj.parameters
+        return value
 
 def parse_mime_type(str_input: str) -> MIMEType:
     str_input = str_input.strip()  # might have to specify HTTP whitespace characters
