@@ -74,6 +74,11 @@ def match_image_type_pattern(resource: bytes) -> bool:
 def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
     raise NotImplementedError
 
+def match_font_type_pattern(resource: bytes) -> MIMEType:
+    raise NotImplementedError
+
+def match_archive_type_pattern(resource: bytes) -> MIMEType:
+    raise NotImplementedError
 
 def is_mp4_pattern(resource: bytes) -> bool:
     """ Determines whether a byte sequence (resource) mathces the
