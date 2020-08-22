@@ -2,11 +2,35 @@ from . import match
 from . import mimetype
 from .mimetype import MIMEType
 from . import terminology
+from . import constants as const
 
+def sniff_unknown(resource: bytes, sniff_scriptable: bool = False) -> MIMEType:  # might need more arguments
+    if sniff_scriptable:
+        mimetype = match.match_pattern_from_table(resource, const.UNKNOWN_PATTERNS)
+        if mimetype != const.UNKNOWN:
+            return mimetype
 
-def sniff_unknown(resource: bytes, sniff_scriptable: bool = False):  # might need more arguments
-    raise NotImplementedError
+    #TODO: allow user agents to extend the following table
+    mimetype = match.match_pattern_from_table(resource, const.ADDITIONAL_PATTERNS)
+    if mimetype != const.UNKNOWN:
+        return mimetype
 
+    mimetype = match.match_image_type_pattern(resource)
+    if mimetype != const.UNKNOWN:
+        return mimetype
+
+    mimetype = match.match_video_audio_type_pattern(resource)
+    if mimetype != const.UNKNOWN:
+        return mimetype
+
+    mimetype = match.match_archive_type_pattern(resource)
+    if mimetype != const.UNKNOWN:
+        return mimetype
+
+    if not terminology.contains_binary_bytes(resource):
+        return MIMEType("text", "plain")
+
+    return MIMEType("application", "octet-stream")
 
 def sniff_mislabeled_binary(resource: bytes) -> MIMEType:
     plaintext_mimetype = MIMEType("text", "plain")
@@ -23,7 +47,6 @@ def sniff_mislabeled_binary(resource: bytes) -> MIMEType:
         return plaintext_mimetype
 
     return MIMEType("application", "octet-stream")
-
 
 def sniff_mislabeled_feed(resource: bytes) -> MIMEType:
     raise NotImplementedError

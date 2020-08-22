@@ -109,10 +109,11 @@ UNKNOWN_PATTERNS = [
     [b'<P>', b'\xff\xdf\xff\xff', WHITESPACE, 'text/html'],
     [b'<!-- ', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/html'],
     [b'<!-->', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/html'],
-    [b'<?xml', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/hml']
+    [b'<?xml', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/html'],
+    [b'<?xml', b'\xff\xff\xff\xff\xff', b'', 'application/pdf']
 ]
 
-# Patterns corresponding second table in section 7.2 of specification
+# Patterns corresponding second table in section 7.1 of specification
 # TODO: Add logic to allow user to extend this table safely
 # Byte Pattern | PATTERN MASK | LEADING BYTES TO BE IGNORED | MIMETYPE
 ADDITIONAL_PATTERNS = [[b'%!PS-Adobe-',
@@ -121,6 +122,10 @@ ADDITIONAL_PATTERNS = [[b'%!PS-Adobe-',
                         'application/postcript'],
                        [b'\xff\xff\x00\x00',
                         b'\xff\xff\x00\x00',
+                        b'',
+                        'text/plain'],
+                       [b'\xef\xbb\xbf\x00',
+                        b'\xff\xff\xff\x00',
                         b'',
                         'text/plain'],
                        [b'\xef\xbb\xbf\x00',
