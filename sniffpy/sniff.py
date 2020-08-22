@@ -7,26 +7,26 @@ from . import constants as const
 def sniff_unknown(resource: bytes, sniff_scriptable: bool = False) -> MIMEType:
     # might need more arguments
     if sniff_scriptable:
-        this_mimetype = match.match_pattern_from_table(resource, const.UNKNOWN_PATTERNS)
-        if this_mimetype != const.UNDEFINED:
-            return this_mimetype
+        mime_type = match.match_pattern_from_table(resource, const.UNKNOWN_PATTERNS)
+        if mime_type != const.UNDEFINED:
+            return mime_type
 
     #TODO: allow user agents to extend the following table
-    this_mimetype = match.match_pattern_from_table(resource, const.ADDITIONAL_PATTERNS)
-    if this_mimetype != const.UNDEFINED:
-        return this_mimetype
+    mime_type = match.match_pattern_from_table(resource, const.ADDITIONAL_PATTERNS)
+    if mime_type != const.UNDEFINED:
+        return mime_type
 
-    this_mimetype = match.match_image_type_pattern(resource)
-    if this_mimetype != const.UNDEFINED:
-        return this_mimetype
+    mime_type = match.match_image_type_pattern(resource)
+    if mime_type != const.UNDEFINED:
+        return mime_type
 
-    this_mimetype = match.match_video_audio_type_pattern(resource)
-    if this_mimetype != const.UNDEFINED:
-        return this_mimetype
+    mime_type = match.match_video_audio_type_pattern(resource)
+    if mime_type != const.UNDEFINED:
+        return mime_type
 
-    this_mimetype = match.match_archive_type_pattern(resource)
-    if this_mimetype != const.UNDEFINED:
-        return this_mimetype
+    mime_type = match.match_archive_type_pattern(resource)
+    if mime_type != const.UNDEFINED:
+        return mime_type
 
     if not terminology.contains_binary_bytes(resource):
         return MIMEType("text", "plain")
