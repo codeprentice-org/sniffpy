@@ -48,7 +48,7 @@ uninstall:
 	$(VENV_PIP) uninstall sniffpy
 	@echo "Succesfully uninstalled sniffpy"
 
-checkstyle:
+stylecheck:
 	@echo "Checking style"
 	@$(VENV_BIN)/pylint -v  sniffpy
 
