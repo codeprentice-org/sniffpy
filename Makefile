@@ -23,7 +23,7 @@ virtualenv:
 
 all:  uninstall install
 
-install:
+install: virtualenv
 	@echo "Installing sniffpy in the system"
 	@$(VENV_PIP) install -e .
 	@echo " "	
@@ -55,25 +55,3 @@ checkstyle:
 test:
 	$(VENV_BIN)/py.test
 
-
-github_install:
-	@echo "Installing sniffpy in the system"
-	@$(GITHUB_PIP) install .
-	@echo " "	
-	@echo "/////////////////////////////////////// "
-	@echo " "
-	@echo "   _____       _  __  __              "
-	@echo "  / ____|     (_)/ _|/ _|             "
-	@echo " | (___  _ __  _| |_| |_ _ __  _   _  "
-	@echo "  \___ \| '_ \| |  _|  _| '_ \| | | | "
-	@echo "  ____) | | | | | | | | | |_) | |_| | "
-	@echo " |_____/|_| |_|_|_| |_| | .__/ \__, | "
-	@echo "                        | |     __/ | "
-	@echo "                        |_|    |___/  "
-	@echo " "
-	@echo "/////////////////////////////////////// "
-	@echo " "
-	@echo " "		
-
-github_tests:
-	py.test
