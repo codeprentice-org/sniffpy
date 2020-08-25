@@ -8,10 +8,10 @@ from . import constants as const
 #TODO: Rewrite the skip_* functions into one single neat parameterized function
 def skip_comment(sequence: bytes, i: int, length: int) -> (int, bool):
     """
-    Skips XML in the sequence (resource) 
+    Skips XML in the sequence (resource)
     They are in the form <!-- comment -->
     """
-    
+ 
     if i + 3 <= length and sequence[i:i+3] == b'!--':
         i += 3
         while i < length:
