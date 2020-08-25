@@ -1,5 +1,7 @@
 import re
 
+def is_white_space_byte(byte: bytes) -> bool:
+    return byte in (b'\x09', b'\x0a', b'\x0c', b'\x0d', b'\x20')
 
 def contains_binary_bytes(resource: bytes) -> bool:
     contains_binary = False

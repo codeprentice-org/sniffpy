@@ -4,6 +4,10 @@
 # pylint: disable=line-too-long
 from sniffpy.mimetype import MIMEType
 
+# URLs
+RSS_PURL_URL = b'http://purl.org/rss/1.0/'
+RDF_SYNTAX_URL = b'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+
 # Bytes that the specification defines as whitespace
 WHITESPACE = b'\x09\x0a\x0c\x0d\x20'
 UNDEFINED = MIMEType('undefined', 'undefined')
