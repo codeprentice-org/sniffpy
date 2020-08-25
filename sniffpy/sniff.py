@@ -4,6 +4,56 @@ from .mimetype import MIMEType
 from . import terminology
 from . import constants as const
 
+def skip_comment(sequence: bytes, i: int, length: int) -> (int, bool):
+    if i + 3 <= length and sequence[i:i+3] == b'!--':
+        i += 3
+        while i < length:
+            if i + 3 <= 3 and sequence[i:i+3] == b'-->':
+                i += 3
+                return i, True
+            i += 1
+    return i, False
+
+def skip_markup_declaration(sequence: bytes, i: int, length: int) -> (int, bool):
+    if i + 1 <= length and sequence[i:i+1] == b'!': #RHS is internally an array of integer
+        i += 1
+        while i < length:
+            if i + 1 <= length and sequence[i:i+1] == b'>':
+                i += 1
+                return i, True
+            i += 1
+    return i, False
+
+def skip_processing_instruction(sequence: bytes, i: int, length: int) -> (int, bool):
+    if i + 1 <= length and sequence[i:i+1] == b'?': #RHS is internally an array of integers
+        i += 1
+        while i < length:
+            if i + 2 <= length and sequence[i:i+2] == b'?>':
+                i += 2
+                return i, True
+            i += 1
+    return i, False
+
+def handle_rdf(sequence: bytes, i: int, length: int) -> (int, MIMEType):
+    if i + 7 <= length and sequence[i:i+7] == b'rdf:RDF':
+        i += 7
+        while i < length:
+            if i + 24 <= length and sequence[i:i+24] == const.RSS_PURL_URL:
+                i += 24
+                while i < length:
+                    if i + 43 <= length and sequence[i:i+43] == const.RDF_SYNTAX_URL:
+                        return i, MIMEType("application", "rss+xml")
+                    i += 1
+            if i + 43 <= length and sequence[i:i+43] == const.RDF_SYNTAX_URL:
+                i += 43
+                while i < length:
+                    if i + 24 <= length and sequence[i:i+24] == const.RSS_PURL_URL:
+                        return i, MIMEType("application", "rss+xml")
+                    i += 1
+            i += 1
+    i += 1 #TODO: incorporate response to https://github.com/whatwg/mimesniff/issues/127
+    return i, None
+
 def sniff_unknown(resource: bytes, sniff_scriptable: bool = False) -> MIMEType:
     # might need more arguments
     if sniff_scriptable:
@@ -49,8 +99,44 @@ def sniff_mislabeled_binary(resource: bytes) -> MIMEType:
 
     return MIMEType("application", "octet-stream")
 
-def sniff_mislabeled_feed(resource: bytes) -> MIMEType:
-    raise NotImplementedError
+def sniff_mislabeled_feed(sequence: bytes, supplied_mime_type: MIMEType) -> MIMEType:
+    length = len(sequence)
+    i = 0
+    if length >= 3 and sequence[:3] == b'\xef\xbb\xbf':
+        i += 3
+    while i < length:
+        while i < length:
+            if sequence[i:i+1] == b'<': #RHS is internally an array of integers
+                i += 1
+                break
+            if not terminology.is_white_space_byte(sequence[i:i+1]):
+                return supplied_mime_type
+            i += 1
+
+        while i < length:
+            i, break_outer_loop = skip_comment(sequence, i, length)
+            if break_outer_loop:
+                break
+
+            i, break_outer_loop = skip_markup_declaration(sequence, i, length)
+            if break_outer_loop:
+                break
+
+            i, break_outer_loop = skip_processing_instruction(sequence, i, length)
+            if break_outer_loop:
+                break
+
+            if i + 3 <= length and sequence[i:i+3] == b'rss':
+                return MIMEType("application", "rss+xml")
+
+            if i + 4 <= length and sequence[i:i+4] == b'feed':
+                return MIMEType("application", "atom+xml")
+
+            i, mime_type = handle_rdf(sequence, i, length)
+            if mime_type is not None:
+                return mime_type
+
+    return supplied_mime_type
 
 
 def sniff(
@@ -68,7 +154,7 @@ def sniff(
     if mime_type.is_xml():
         return mime_type
     if mime_type.essence() == "text/html":
-        sniff_mislabeled_feed(resource)
+        return sniff_mislabeled_feed(resource, mime_type)
     if mime_type.is_image():  # TODO: implement checking suppported image by user agent
         match_type = match.match_image_type_pattern(resource)
         if match_type is not None:
