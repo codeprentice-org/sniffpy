@@ -355,7 +355,6 @@ single-line-class-stmt=no
 # else.
 single-line-if-stmt=no
 
-
 [SIMILARITIES]
 
 # Ignore comments when computing similarities.
@@ -432,7 +431,8 @@ function-naming-style=snake_case
 #function-rgx=
 
 # Good variable names which should always be accepted, separated by a comma.
-good-names=i,
+good-names=f,
+           i,
            j,
            k,
            ex,
