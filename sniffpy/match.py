@@ -77,16 +77,22 @@ def match_image_type_pattern(resource: bytes) -> bool:
     """
     return match_pattern_from_table(resource, const.IMAGE_PATTERNS)
 
-
 def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
-    """
-    Implementation of algorithm in:
+    """ Determines if a resource matches an audio or video type pattern
+    as specificed in:
     https://mimesniff.spec.whatwg.org/#matching-an-audio-or-video-type-pattern
+    Return Mimetype object if it does or const.UNDEFINED otherwise."""
 
-    Returns Video or audio MIME Type if some video or audio mimetype matches the
-    resource or UNDEFINED otherwise.
-    """
-    raise NotImplementedError
+    mime_type = match_pattern_from_table(resource, const.AUDIO_VIDEO_PATTERNS)
+    if mime_type != const.UNDEFINED:
+        return mime_type
+    if is_mp4_pattern(resource):
+        return parse_mime_type('video/mp4')
+    if is_webm_pattern(resource):
+        return parse_mime_type('video/webm')
+    if is_mp3_pattern(resource):
+        return parse_mime_type('audio/mpeg')
+    return mime_type
 
 def match_font_type_pattern(resource: bytes) -> MIMEType:
     raise NotImplementedError

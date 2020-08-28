@@ -61,9 +61,8 @@ class TestImageMatching:
             image_name = os.path.join(images_folder_path, image_name)
             _, extension = os.path.splitext(image_name)
             expected_mime = parse_mime_type('image/' + extension[1:])
-            print('image/' + extension[1:])
-            with open(image_name, 'rb') as image_file:
-                resource = image_file.read()
+            with open(image_name, 'rb') as f:
+                resource = f.read()
                 computed_type = match.match_image_type_pattern(resource)
                 mimetype_is_equal(computed_type, expected_mime)
 
@@ -71,13 +70,37 @@ class TestImageMatching:
 class TestAudioVideoMatching:
 
     def test_is_mp4_pattern(self):
-        mp4_file_path = os.path.join(TEST_FILES_PATH, 'audio/sample_mp4.mp4')
-        with open(mp4_file_path, 'rb') as mp4_file:
-            resource = mp4_file.read()
+        mp4_file_path = os.path.join(TEST_FILES_PATH, 'video/mp4.mp4')
+        with open(mp4_file_path, 'rb') as f:
+            resource = f.read()
             assert match.is_mp4_pattern(resource)
 
     def test_is_webm_pattern(self):
-        webm_file_path = os.path.join(TEST_FILES_PATH, 'webm/sample_webm.webm')
-        with open(webm_file_path, 'rb') as webm_f:
-            resource = webm_f.read()
+        webm_file_path = os.path.join(TEST_FILES_PATH, 'video/webm.webm')
+        with open(webm_file_path, 'rb') as f:
+            resource = f.read()
             assert match.is_webm_pattern(resource)
+
+    def test_audio_with_match_video_audio_type_pattern(self):
+        audio_folder_path = os.path.join(TEST_FILES_PATH, 'audio')
+        audios = os.listdir(audio_folder_path)
+        for audio_name in audios:
+            filename = os.path.join(audio_folder_path, audio_name)
+            name, _ = os.path.splitext(audio_name)
+            expected_mime = parse_mime_type('audio/' + name)
+            with open(filename, 'rb') as f:
+                resource = f.read()
+                computed_type = match.match_video_audio_type_pattern(resource)
+                mimetype_is_equal(computed_type, expected_mime)
+
+    def test_video_with_match_video_audio_type_pattern(self):
+        video_folder_path = os.path.join(TEST_FILES_PATH, 'video')
+        videos = os.listdir(video_folder_path)
+        for video_name in videos:
+            filename = os.path.join(video_folder_path, video_name)
+            name, _ = os.path.splitext(video_name)
+            expected_mime = parse_mime_type('video/' + name)
+            with open(filename, 'rb') as f:
+                resource = f.read()
+                computed_type = match.match_video_audio_type_pattern(resource)
+                mimetype_is_equal(computed_type, expected_mime)
