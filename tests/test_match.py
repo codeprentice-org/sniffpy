@@ -6,12 +6,7 @@ import pytest
 import sniffpy.match as match
 from sniffpy.mimetype import parse_mime_type
 from tests.utils import mimetype_is_equal
-
-
-TEST_FILES_PATH = os.path.dirname(os.path.realpath(__file__))
-TEST_FILES_PATH = os.path.join(TEST_FILES_PATH, 'test_files')
-
-
+from tests.resources import TEST_FILES_PATH, get_resource_test_list
 
 def test_match_pattern():
     """Tests whether match_pattern implementation works"""
@@ -54,18 +49,10 @@ class TestImageMatching:
         actual_type = parse_mime_type(mime)
         mimetype_is_equal(computed_type, actual_type)
 
-    def test_match_image_pattern_wfile(self):
-        images_folder_path = os.path.join(TEST_FILES_PATH, 'image')
-        images = os.listdir(images_folder_path)
-        for image_name in images:
-            image_name = os.path.join(images_folder_path, image_name)
-            _, extension = os.path.splitext(image_name)
-            expected_mime = parse_mime_type('image/' + extension[1:])
-            with open(image_name, 'rb') as f:
-                resource = f.read()
-                computed_type = match.match_image_type_pattern(resource)
-                mimetype_is_equal(computed_type, expected_mime)
-
+    @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(["image"]))
+    def test_match_image_pattern_wfile(self, expected_type, resource):
+        computed_type = match.match_image_type_pattern(resource)
+        mimetype_is_equal(computed_type, expected_type)
 
 class TestAudioVideoMatching:
 
@@ -81,26 +68,7 @@ class TestAudioVideoMatching:
             resource = f.read()
             assert match.is_webm_pattern(resource)
 
-    def test_audio_with_match_video_audio_type_pattern(self):
-        audio_folder_path = os.path.join(TEST_FILES_PATH, 'audio')
-        audios = os.listdir(audio_folder_path)
-        for audio_name in audios:
-            filename = os.path.join(audio_folder_path, audio_name)
-            name, _ = os.path.splitext(audio_name)
-            expected_mime = parse_mime_type('audio/' + name)
-            with open(filename, 'rb') as f:
-                resource = f.read()
-                computed_type = match.match_video_audio_type_pattern(resource)
-                mimetype_is_equal(computed_type, expected_mime)
-
-    def test_video_with_match_video_audio_type_pattern(self):
-        video_folder_path = os.path.join(TEST_FILES_PATH, 'video')
-        videos = os.listdir(video_folder_path)
-        for video_name in videos:
-            filename = os.path.join(video_folder_path, video_name)
-            name, _ = os.path.splitext(video_name)
-            expected_mime = parse_mime_type('video/' + name)
-            with open(filename, 'rb') as f:
-                resource = f.read()
-                computed_type = match.match_video_audio_type_pattern(resource)
-                mimetype_is_equal(computed_type, expected_mime)
+    @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(["audio", "video"]))
+    def test_match_video_audio_type_pattern(self, expected_type, resource):
+        computed_type = match.match_video_audio_type_pattern(resource)
+        mimetype_is_equal(computed_type, expected_type)
