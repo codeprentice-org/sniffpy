@@ -1,5 +1,6 @@
 [MASTER]
 
+
 disable=
 	C0114,
 	C0115,
@@ -372,6 +373,7 @@ min-similarity-lines=4
 
 [BASIC]
 
+
 # Naming style matching correct argument names.
 argument-naming-style=snake_case
 
@@ -435,6 +437,7 @@ good-names=f,
            i,
            j,
            k,
+           op,
            ex,
            Run,
            _

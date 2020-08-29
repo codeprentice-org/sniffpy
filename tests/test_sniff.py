@@ -4,9 +4,6 @@ import pytest
 
 import sniffpy
 from sniffpy.mimetype import parse_mime_type
-from tests.utils import mimetype_is_equal
-
-
 
 class TestSniffing:
     mime_types = [
@@ -30,4 +27,4 @@ class TestSniffing:
         test plain text and binary strings"""
         computed_type = sniffpy.sniff_mislabeled_binary(resource)
         actual_type = parse_mime_type(mime)
-        mimetype_is_equal(computed_type, actual_type)
+        assert computed_type == actual_type

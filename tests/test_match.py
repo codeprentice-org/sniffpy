@@ -5,7 +5,6 @@ import pytest
 
 import sniffpy.match as match
 from sniffpy.mimetype import parse_mime_type
-from tests.utils import mimetype_is_equal
 from tests.resources import TEST_FILES_PATH, get_resource_test_list
 
 def test_match_pattern():
@@ -47,12 +46,12 @@ class TestImageMatching:
         """ Tests the most importnat image MIMEs with simulated content"""
         computed_type = match.match_image_type_pattern(resource)
         actual_type = parse_mime_type(mime)
-        mimetype_is_equal(computed_type, actual_type)
+        assert computed_type == actual_type
 
     @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(["image"]))
     def test_match_image_pattern_wfile(self, expected_type, resource):
         computed_type = match.match_image_type_pattern(resource)
-        mimetype_is_equal(computed_type, expected_type)
+        assert computed_type == expected_type
 
 class TestAudioVideoMatching:
 
@@ -71,4 +70,4 @@ class TestAudioVideoMatching:
     @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(["audio", "video"]))
     def test_match_video_audio_type_pattern(self, expected_type, resource):
         computed_type = match.match_video_audio_type_pattern(resource)
-        mimetype_is_equal(computed_type, expected_type)
+        assert computed_type == expected_type
