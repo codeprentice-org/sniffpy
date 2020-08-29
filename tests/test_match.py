@@ -55,7 +55,7 @@ class TestImageMatching:
         mimetype_is_equal(computed_type, actual_type)
 
     def test_match_image_pattern_wfile(self):
-        images_folder_path = os.path.join(TEST_FILES_PATH, 'images')
+        images_folder_path = os.path.join(TEST_FILES_PATH, 'image')
         images = os.listdir(images_folder_path)
         for image_name in images:
             image_name = os.path.join(images_folder_path, image_name)
