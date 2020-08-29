@@ -1,9 +1,15 @@
+"""
+This module contains the definitions from section 3 in the specification:
+https://mimesniff.spec.whatwg.org/#terminology
+"""
+
 import re
 
 def is_white_space_byte(byte: bytes) -> bool:
     return byte in (b'\x09', b'\x0a', b'\x0c', b'\x0d', b'\x20')
 
 def contains_binary_bytes(resource: bytes) -> bool:
+
     contains_binary = False
     for byte in resource:
 

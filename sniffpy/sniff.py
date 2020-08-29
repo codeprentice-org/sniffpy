@@ -79,6 +79,15 @@ def handle_rdf(sequence: bytes, i: int, length: int) -> (int, MIMEType):
 
 #Functions from specification section 7
 def sniff_unknown(resource: bytes, sniff_scriptable: bool = False) -> MIMEType:
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#identifying-a-resource-with-an-unknown-mime-type
+
+    Given a resource, it tries to sniff its MIME type. The sniff_scriptable argument
+    indicates whether it should sniff for scriptable MIME types which is defined as
+    any MIME type whose essence is "application/pdf"
+    """
+
     # might need more arguments
     if sniff_scriptable:
         mime_type = match.match_pattern_from_table(resource, const.UNKNOWN_PATTERNS)
@@ -108,6 +117,14 @@ def sniff_unknown(resource: bytes, sniff_scriptable: bool = False) -> MIMEType:
     return MIMEType("application", "octet-stream")
 
 def sniff_mislabeled_binary(resource: bytes) -> MIMEType:
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#sniffing-a-mislabeled-binary-resource
+
+    Determines whether a given resource has been mislabeled
+    as plain text and returns the corrected MIME type
+    """
+
     plaintext_mimetype = MIMEType("text", "plain")
     length = len(resource)
 
@@ -124,6 +141,14 @@ def sniff_mislabeled_binary(resource: bytes) -> MIMEType:
     return MIMEType("application", "octet-stream")
 
 def sniff_mislabeled_feed(sequence: bytes, supplied_mime_type: MIMEType) -> MIMEType:
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#sniffing-a-mislabeled-feed
+
+    Determines whether a feed has been mislabeled as HTML and returns
+    the corrected MIME type (RSS, Atom or HTML)
+    """
+
     length = len(sequence)
     i = 0
     if length >= 3 and sequence[:3] == b'\xef\xbb\xbf':
@@ -167,6 +192,15 @@ def sniff(
         mime_type_string: str = "unknown/unknown",
         no_sniff: bool = False,
         check_for_apache_bug: bool = False) -> str:
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#determining-the-computed-mime-type-of-a-resource
+
+    The main method that will be called by users to determine the MIME type of a
+    resource. The mime_type_string indicates the supplied MIME type (for example, in the
+    case of HTTP would be the Content-Type).
+    """
+
     mime_type = mimetype.parse_mime_type(mime_type_string)
     if mime_type.is_unknown():
         return sniff_unknown(resource, sniff_scriptable=not no_sniff)

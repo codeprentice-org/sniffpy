@@ -16,7 +16,7 @@ def match_pattern(
         mask: bytes,
         ignored: bytes):
     """
-    Implementation of algorithm in:x
+    Implementation of algorithm in:
     https://mimesniff.spec.whatwg.org/#matching-a-mime-type-pattern
     True if pattern matches the resource. False otherwise.
     """
