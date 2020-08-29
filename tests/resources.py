@@ -66,6 +66,11 @@ TEST_FILES_PATH = os.path.dirname(os.path.realpath(__file__))
 TEST_FILES_PATH = os.path.join(TEST_FILES_PATH, 'test_files')
 
 def filter_files_metadata(tags):
+    """
+    Filters the files_metadata list by the tags - if any of the
+    a file metadata is filtered only if none of the tags matches
+    """
+
     if tags:
         filtered_metadata = []
         for metadata in files_metadata:
@@ -79,6 +84,15 @@ def filter_files_metadata(tags):
     return files_metadata
 
 def get_resource_test_list(tags):
+    """
+    Returns test parameters for @pytest.mark.parameterize 
+    so that it can check whether the relevant method can discern
+    the actual MIME type of the resource. Only the relevant test
+    parameters are returned according to the tags from the 
+    files_metadata. Also reads from test_files directory to get
+    the relevant resources.
+    """
+
     filtered_files_metadata = filter_files_metadata(tags)
     resources = []
     for metadata in filtered_files_metadata:
