@@ -5,6 +5,7 @@ to tags.
 """
 
 import os
+import pytest
 from sniffpy.mimetype import parse_mime_type
 
 files_metadata = [
@@ -102,5 +103,7 @@ def get_resource_test_list(tags):
         expected_mime_type = parse_mime_type(metadata['expected_mime_type'])
         with open(file_path, "rb") as f:
             resource = f.read()
-            resources.append((expected_mime_type, resource))
+            _id = "{} => {}".format(metadata['path'], metadata['expected_mime_type'])
+            param = pytest.param(expected_mime_type, resource, id=_id)
+            resources.append(param)
     return resources
