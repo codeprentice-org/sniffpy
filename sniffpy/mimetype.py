@@ -1,12 +1,34 @@
+"""
+Implementation of section 4 in the specification:
+https://mimesniff.spec.whatwg.org/#understanding-mime-types
+
+Contains the MIMEType class definition and an implementation
+of MIME type parsing.
+"""
+
 from . import ref
 from . import terminology
 
-
 class MIMEType:
-    """ TODO: Add class docstring"""
+    """
+    This class defines a MIME type and has as its methods
+    and properties, definitions and algorithms from
+    section 4 of the specification.
+    """
 
     def __init__(self, _type: str, _subtype: str,
                  parameters: dict = None) -> None:
+        """
+        This initializes a MIME type.
+
+        * type: the general category into which a resource falls under,
+        for example, "text"
+        * subtype: the exact category of the specific type, for example,
+        "plain"
+        * parameters: a string to string mapping containing
+        further information of the MIME type, for example, {"charset": "UTF-8"}
+        """
+
         self.type = _type
         self.subtype = _subtype
         if parameters is None:
@@ -17,8 +39,8 @@ class MIMEType:
     def essence(self) -> str:
         return self.type + "/" + self.subtype
 
-    def __str__(self) -> str:
-        return self.type + "/" + self.subtype  # TODO: Implement parameter
+    def __str__(self) -> str: #TODO: Should be an implementation of 4.5
+        return self.type + "/" + self.subtype
 
     def is_xml(self) -> bool:
         if len(self.subtype) > 3 and self.subtype[-4:] == "+xml":
@@ -44,6 +66,14 @@ class MIMEType:
         return value
 
 def parse_mime_type(str_input: str) -> MIMEType:
+    """
+    Implementation of algorithm in:
+    https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
+
+    Given a string representation of a MIME type this function
+    parses it and returns its representation as an instance of MIMEType
+    """
+
     str_input = str_input.strip()  # might have to specify HTTP whitespace characters
     pos = 0
     _type, pos = ref.collect_code_points(str_input, ['/'], pos)
