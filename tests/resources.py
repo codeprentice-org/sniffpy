@@ -102,12 +102,12 @@ files_metadata = [
     {
         'path': "font/OpenSans-Regular.otf",
         'expected_mime_type': "font/otf",
-        'tags': ["font", "sniff"]
+        'tags': ["font"]
     },
     {
         'path': "font/OpenSans-Regular.ttf",
         'expected_mime_type': "font/ttf",
-        'tags': ["text", "sniff"]
+        'tags': ["text"]
     },
     {
         'path': "archive/plain.zip",
