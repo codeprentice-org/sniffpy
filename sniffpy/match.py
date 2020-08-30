@@ -95,10 +95,10 @@ def match_video_audio_type_pattern(resource: bytes) -> MIMEType:
     return mime_type
 
 def match_font_type_pattern(resource: bytes) -> MIMEType:
-    raise NotImplementedError
+    return match_pattern_from_table(resource, const.FONT_PATTERNS)
 
 def match_archive_type_pattern(resource: bytes) -> MIMEType:
-    raise NotImplementedError
+    return match_pattern_from_table(resource, const.ARCHIVE_PATTERNS)
 
 def is_mp4_pattern(resource: bytes) -> bool:
     """ Determines whether a byte sequence (resource) mathces the

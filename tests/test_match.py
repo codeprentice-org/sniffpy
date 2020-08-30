@@ -71,3 +71,8 @@ class TestAudioVideoMatching:
     def test_match_video_audio_type_pattern(self, expected_type, resource):
         computed_type = match.match_video_audio_type_pattern(resource)
         assert computed_type == expected_type
+
+    @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(["font"]))
+    def test_match_font_type_pattern(self, expected_type, resource):
+        computed_type = match.match_font_type_pattern(resource)
+        assert computed_type == expected_type
