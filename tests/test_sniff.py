@@ -30,7 +30,13 @@ class TestSniffing:
         actual_type = parse_mime_type(mime)
         assert computed_type == actual_type
 
-    @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(False))
+    @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(["sniff"]))
     def test_sniff(self, expected_type, resource):
         computed_type = sniffpy.sniff(resource)
+        assert computed_type == expected_type
+
+    @pytest.mark.parametrize('expected_type, resource', \
+            get_resource_test_list(["sniff-mislabeled-html"]))
+    def test_sniff_with_mislabeled_html(self, expected_type, resource):
+        computed_type = sniffpy.sniff(resource, "text/html")
         assert computed_type == expected_type

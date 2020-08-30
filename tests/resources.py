@@ -12,107 +12,107 @@ files_metadata = [
     {
         'path': "audio/aiff.aif",
         'expected_mime_type': "audio/aiff",
-        'tags': ["audio"]
+        'tags': ["audio", "sniff"]
     },
     {
         'path': "audio/midi.mid",
         'expected_mime_type': "audio/midi",
-        'tags': ["audio"]
+        'tags': ["audio", "sniff"]
     },
     {
         'path': "audio/mpeg.mp3",
         'expected_mime_type': "audio/mpeg",
-        'tags': ["audio"]
+        'tags': ["audio", "sniff"]
     },
     {
         'path': "audio/wave.wav",
         'expected_mime_type': "audio/wave",
-        'tags': ["audio"]
+        'tags': ["audio", "sniff"]
     },
     {
         'path': "image/sample_image.gif",
         'expected_mime_type': "image/gif",
-        'tags': ["image"]
+        'tags': ["image", "sniff"]
     },
     {
         'path': "image/sample_image.jpeg",
         'expected_mime_type': "image/jpeg",
-        'tags': ["image"]
+        'tags': ["image", "sniff"]
     },
     {
         'path': "image/sample_image.png",
         'expected_mime_type': "image/png",
-        'tags': ["image"]
+        'tags': ["image", "sniff"]
     },
     {
         'path': "video/avi.avi",
         'expected_mime_type': "video/avi",
-        'tags': ["video"]
+        'tags': ["video", "sniff"]
     },
     {
         'path': "video/mp4.mp4",
         'expected_mime_type': "video/mp4",
-        'tags': ["video"]
+        'tags': ["video", "sniff"]
     },
     {
         'path': "video/webm.webm",
         'expected_mime_type': "video/webm",
-        'tags': ["video"]
+        'tags': ["video", "sniff"]
     },
     {
         'path': "data/sample.xml",
         'expected_mime_type': "text/xml",
-        'tags': ["text", "xml", "document"]
+        'tags': ["text", "xml", "document", "sniff"]
     },
     {
         'path': "document/dummy.pdf",
         'expected_mime_type': "application/pdf",
-        'tags': ["document"]
+        'tags': ["document", "sniff"]
     },
     {
         'path': "document/plain.txt",
         'expected_mime_type': "text/plain",
-        'tags': ["text", "document"]
+        'tags': ["text", "document", "sniff"]
     },
     {
         'path': "document/postscript.ps",
         'expected_mime_type': "application/postscript",
-        'tags': ["text", "document"]
+        'tags': ["text", "document", "sniff"]
     },
     {
         'path': "document/sample.doc",
         'expected_mime_type': "application/octet-stream",
-        'tags': ["document"]
+        'tags': ["document", "sniff"]
     },
     {
         'path': "document/webpage.html",
         'expected_mime_type': "text/html",
-        'tags': ["text", "document"]
+        'tags': ["text", "document", "sniff"]
     },
     {
         'path': "feed/atom.xml",
         'expected_mime_type': "application/atom+xml",
-        'tags': ["document", "text", "xml"]
+        'tags': ["document", "text", "xml", "sniff-mislabeled-html"]
     },
     {
         'path': "feed/rss.xml",
         'expected_mime_type': "application/rss+xml",
-        'tags': ["document", "text", "xml"]
+        'tags': ["document", "text", "xml", "sniff-mislabeled-html"]
     },
     {
         'path': "font/OpenSans-Regular.otf",
         'expected_mime_type': "font/otf",
-        'tags': ["font"]
+        'tags': ["font", "sniff"]
     },
     {
         'path': "font/OpenSans-Regular.ttf",
         'expected_mime_type': "font/ttf",
-        'tags': ["text"]
+        'tags': ["text", "sniff"]
     },
     {
         'path': "archive/plain.zip",
         'expected_mime_type': "application/zip",
-        'tags': ["archive"]
+        'tags': ["archive", "sniff"]
     },
 ]
 
