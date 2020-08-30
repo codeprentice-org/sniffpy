@@ -113,8 +113,8 @@ UNKNOWN_PATTERNS = [
     [b'<P>', b'\xff\xdf\xff\xff', WHITESPACE, 'text/html'],
     [b'<!-- ', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/html'],
     [b'<!-->', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/html'],
-    [b'<?xml', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/html'],
-    [b'<?xml', b'\xff\xff\xff\xff\xff', b'', 'application/pdf']
+    [b'<?xml', b'\xff\xff\xff\xff\xff', WHITESPACE, 'text/xml'],
+    [b'%PDF-', b'\xff\xff\xff\xff\xff', b'', 'application/pdf']
 ]
 
 # Patterns corresponding second table in section 7.1 of specification
@@ -123,7 +123,7 @@ UNKNOWN_PATTERNS = [
 ADDITIONAL_PATTERNS = [[b'%!PS-Adobe-',
                         b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff',
                         b'',
-                        'application/postcript'],
+                        'application/postscript'],
                        [b'\xff\xff\x00\x00',
                         b'\xff\xff\x00\x00',
                         b'',
