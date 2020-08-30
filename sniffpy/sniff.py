@@ -15,7 +15,7 @@ def skip_comment(sequence: bytes, i: int, length: int) -> (int, bool):
     if i + 3 <= length and sequence[i:i+3] == b'!--':
         i += 3
         while i < length:
-            if i + 3 <= 3 and sequence[i:i+3] == b'-->':
+            if i + 3 <= length and sequence[i:i+3] == b'-->':
                 i += 3
                 return i, True
             i += 1
@@ -148,7 +148,6 @@ def sniff_mislabeled_feed(sequence: bytes, supplied_mime_type: MIMEType) -> MIME
     Determines whether a feed has been mislabeled as HTML and returns
     the corrected MIME type (RSS, Atom or HTML)
     """
-
     length = len(sequence)
     i = 0
     if length >= 3 and sequence[:3] == b'\xef\xbb\xbf':
