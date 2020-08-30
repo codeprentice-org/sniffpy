@@ -4,6 +4,7 @@ import pytest
 
 import sniffpy
 from sniffpy.mimetype import parse_mime_type
+from tests.resources import get_resource_test_list
 
 class TestSniffing:
     mime_types = [
@@ -28,3 +29,8 @@ class TestSniffing:
         computed_type = sniffpy.sniff_mislabeled_binary(resource)
         actual_type = parse_mime_type(mime)
         assert computed_type == actual_type
+
+    @pytest.mark.parametrize('expected_type, resource', get_resource_test_list(False))
+    def test_sniff(self, expected_type, resource):
+        computed_type = sniffpy.sniff(resource)
+        assert computed_type == expected_type
