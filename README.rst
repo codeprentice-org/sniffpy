@@ -17,20 +17,7 @@ Example
 ---------------
 The following is an example on how to use sniffpy to guess the MIME type of an HTTP response using requests
 
-```
-import sniffpy
-import requests
-
-r = requests.get("https://httpbin.org/image/jpeg")
-mime_type = sniffpy.sniff(r.content) #returns a MIMEType object
-
-print(mime_type.type) #prints "image"
-print(mime_type.subtype) #prints "jpeg"
-
-print(mime_type) #prints "image/jpeg"
-
-```
-
-
+.. literalinclude:: example.py
+  :language: python
 Documentation on how to use the package and how to contribute can be found
 on `<https://sniffpy.readthedocs.io/en/latest/>`_
