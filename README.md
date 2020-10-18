@@ -1,6 +1,6 @@
 # Sniffpy
 
-Sniffpy is a python implementation of [MIME Sniffing Standard](https://mimesniff.specw.whatwg.org/)
+Sniffpy is a python implementation of [MIME Sniffing Standard](https://mimesniff.spec.whatwg.org/)
 MIME sniffing describes algorithms that attempt to discern the correct MIME type of some given
 data. The MIME type of a file or byte stream describes its format. For example, the MIME type of an image could be
 `image/jpeg` or `image/png` depending on its exact format. MIME types consist of:
